@@ -19,7 +19,7 @@ export default function Home() {
             <span className="text-orange">only Resource Website</span> for{" "}
             <span className="underline">EN</span>
           </h1>
-          <button className="btn"> Learn More </button>
+          <button className="btn"> Login To Site </button>
         </div> 
         <div className="res">
           <Resources  />

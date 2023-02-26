@@ -8,7 +8,7 @@ const Navbar = () => {
         <ul>
           <li className="nav-links logo">
             {/* <img src="assets/logo.svg" alt="Logo" />  */}
-            <i className="fa-solid fa-bars"></i>
+            <i class="fa-solid fa-wave-square"></i>
           </li>
         </ul>
         <ul>
