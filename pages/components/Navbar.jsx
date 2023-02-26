@@ -1,5 +1,5 @@
 import Link from "next/link"; 
-import ThirdSem from "./ThirdSem"
+import ThirdSem from "./[Sem]"
 
 const Navbar = () => {
   return (
