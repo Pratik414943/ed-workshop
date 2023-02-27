@@ -4,7 +4,8 @@
     position: -webkit-sticky;  
     padding-top: 1.5rem;
     padding-left: 2vw; 
-    padding-right: 2vw; 
+    padding-right: 2vw;  
+    padding-bottom: 0.5rem;
     box-sizing: border-box;  
     margin-right: 2rem;
     color: orange;
@@ -13,6 +14,10 @@
 .navbar i{ 
     width: 18%;
     height: 28%;
+    margin-right: 0.75rem;
+} 
+.hr-orange{
+    border:  0.01rem solid orange;
 }
 .navbar ul{ 
     display: flex;
@@ -26,6 +31,6 @@
     color: orange;
     padding-left: 16px;
 }
-.navbar i{
+.navbar i,.navbar span{
     color: orange;
 }

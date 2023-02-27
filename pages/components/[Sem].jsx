@@ -1,4 +1,17 @@
 import { Select } from "@chakra-ui/react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Lorem,
+  Button,
+} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
+import Navbar from "./Navbar";
 
 const Sem = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -6,10 +19,12 @@ const Sem = () => {
     <>
       <div className="sem">
         <Navbar />
-        <img
-          src="https://img.freepik.com/premium-vector/liquid-shape-background-abstract-dynamic-wallpaper-poster-banner-presentation_752732-424.jpg?w=1380"
-          alt=""
-        />
+        {/* <div className="container">
+          <img
+            src="https://img.freepik.com/premium-vector/liquid-shape-background-abstract-dynamic-wallpaper-poster-banner-presentation_752732-424.jpg?w=1380"
+            alt=""
+          />
+        </div> */}
         <div className="container">
           <h1>Subject Wise Resources</h1>
           <hr />
@@ -66,4 +81,4 @@ const Sem = () => {
   );
 };
 
-export default ThirdSem;
+export default Sem;

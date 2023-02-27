@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Navbar from "./components/Navbar";
-import Resources from "./components/Resources";
+import Resources from "./components/Features"; 
+import { Select } from '@chakra-ui/react'
 
 export default function Home() {
   return (
