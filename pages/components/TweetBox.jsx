@@ -18,10 +18,6 @@ const TweetBox = () => {
               spellcheck="false"
             ></div>
           </div>
-          <div class="privacy">
-            <i class="fas fa-globe-asia"></i>
-            <span>Everyone can reply</span>
-          </div>
           <div className="hr-orange"></div>
         </div>
         <div class="bottom">

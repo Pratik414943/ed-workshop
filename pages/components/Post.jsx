@@ -12,6 +12,7 @@ const Post = () => {
                 <li><i class="fa-regular fa-comment"></i></li>
                 <li><i class="fa-solid fa-arrow-down"></i></li>
                 <li><i class="fa-solid fa-arrow-up"></i></li>
+                <li><i class="fa-solid fa-share"></i></li>
             </ul>
         </div>
       </div>

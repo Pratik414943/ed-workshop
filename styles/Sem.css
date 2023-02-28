@@ -1,0 +1,19 @@
+.sem{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+    align-items: center;
+    justify-content: center;
+}
+.container-main{
+    width: 25vw;
+    align-items: center;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+h3{
+    color: orange;
+}

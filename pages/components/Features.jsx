@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardBody, CardFooter,SimpleGrid, Center } from '@chakra-ui/react'
 import { Heading, Text, Button} from '@chakra-ui/react'
 
-const Resources = () => {
+const Features = () => {
   return (
     <>
       <SimpleGrid
@@ -10,7 +10,7 @@ const Resources = () => {
       >
         <Card>
           <CardHeader>
-            <Heading size="md"> Customer dashboard</Heading>
+            <Heading color={'orange'} textAlign={'left'} size="md"> Chat</Heading>
           </CardHeader>
           <CardBody>
             <Text>
@@ -18,12 +18,12 @@ const Resources = () => {
             </Text>
           </CardBody>
           <CardFooter>
-            <Button>View here</Button>
+            <Button>Explore</Button>
           </CardFooter>
         </Card>
         <Card>
           <CardHeader>
-            <Heading size="md"> Customer dashboard</Heading>
+            <Heading color={'orange'} textAlign={'left'} size="md"> Anonymous Feed</Heading>
           </CardHeader>
           <CardBody>
             <Text>
@@ -31,12 +31,12 @@ const Resources = () => {
             </Text>
           </CardBody>
           <CardFooter>
-            <Button>View here</Button>
+            <Button>Explore</Button>
           </CardFooter>
         </Card>
         <Card>
           <CardHeader>
-            <Heading size="md"> Customer dashboard</Heading>
+            <Heading color={'orange'} textAlign={'left'} size="md"> Free Resources</Heading>
           </CardHeader>
           <CardBody>
             <Text>
@@ -44,7 +44,7 @@ const Resources = () => {
             </Text>
           </CardBody>
           <CardFooter>
-            <Button>View here</Button>
+            <Button>Explore</Button>
           </CardFooter>
         </Card>
       </SimpleGrid>
@@ -52,4 +52,4 @@ const Resources = () => {
   );
 };
 
-export default Resources;
+export default Features;
