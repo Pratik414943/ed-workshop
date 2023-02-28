@@ -79,6 +79,15 @@ const Sem = () => {
               </option>
             </Select>
           </div>
+          <div className="item">
+            <h3>Network Theory</h3>
+            <div className="btns">
+            <Button onClick={onOpen}>Notes</Button>
+            <Button onClick={onOpen}>Ut1 Paper</Button>
+            <Button onClick={onOpen}>Ut2 Paper</Button>
+            <Button onClick={onOpen}>End Sem Papers</Button>
+            </div>
+          </div>
         </div>
       </div>
       <Modal isOpen={isOpen} onClose={onClose}>

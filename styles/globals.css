@@ -12,7 +12,9 @@
   display: flex;
   flex-direction: column;
 } 
-
+.flex-r{
+  display: flex;
+}
 .Hero{ 
   display: flex; 
   flex-direction: column;

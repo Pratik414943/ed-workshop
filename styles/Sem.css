@@ -13,6 +13,11 @@
     display: flex;
     flex-direction: column;
     padding: 1rem;
+} 
+.btns{
+    display: flex;
+    padding: 1rem;
+    gap: 1rem;
 }
 h3{
     color: orange;
