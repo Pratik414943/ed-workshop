@@ -3,43 +3,43 @@ import React from "react";
 const TweetBox = () => {
   return (
     <>
-      <div class="wrapper">
-        <div class="input-box">
-          <div class="tweet-area">
-            <span class="placeholder">What's happening?</span>
+      <div className="wrapper">
+        <div className="input-box">
+          <div className="tweet-area">
+            <span className="placeholder">What's happening?</span>
             <div
-              class="input editable"
+              className="input editable"
               contenteditable="true"
               spellcheck="false"
             ></div>
             <div
-              class="input readonly"
+              className="input readonly"
               contenteditable="true"
               spellcheck="false"
             ></div>
           </div>
           <div className="hr-orange"></div>
         </div>
-        <div class="bottom">
-          <ul class="icons">
+        <div className="bottom">
+          <ul className="icons">
             <li>
-              <i class="fa-solid fa-paperclip"></i>
+              <i className="fa-solid fa-paperclip"></i>
             </li>
             <li>
-              <i class="far fa-file-image"></i>
+              <i className="far fa-file-image"></i>
             </li>
             <li>
-              <i class="fas fa-map-marker-alt"></i>
+              <i className="fas fa-map-marker-alt"></i>
             </li>
             <li>
-              <i class="far fa-grin"></i>
+              <i className="far fa-grin"></i>
             </li>
             <li>
-            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+            <i className="fa-solid fa-arrow-up-from-bracket"></i>
             </li>
           </ul>
-          <div class="content">
-            <span class="counter">100</span>
+          <div className="content">
+            <span className="counter">100</span>
             <button>Tweet</button>
           </div>
         </div>

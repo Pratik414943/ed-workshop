@@ -2,9 +2,13 @@ import Head from "next/head";
 import Navbar from "./components/Navbar";
 import Features from "./components/Features"; 
 import { Select } from '@chakra-ui/react'
-import Link from "next/link";
+import Link from "next/link"; 
+import { useEffect } from "react";  
+import { useWeb3 } from "@3rdweb/hooks"
 
-export default function Home() {
+
+export default function Home() {  
+  const { address, connectWallet } = useWeb3();
   return (
     <>
       <Head>
@@ -15,7 +19,7 @@ export default function Home() {
       </Head>
       <main> 
           <Navbar />
-        <div className="Hero">
+        <div className="Hero"> 
           <h1 className="">
             Welcome to the{" "}
             <span className="text-orange">only Resource Website</span> for{" "}
@@ -23,7 +27,8 @@ export default function Home() {
             EN
             </span>
           </h1>
-          <button className="btn"> <Link href={'./components/Login'}> Login To Site </Link> </button>
+          {/* <button className="btn"> <Link href={'./components/Login'}> Login To Site </Link> </button> */}
+          <button className="btn" id='connect' onClick={() => connectWallet("injected")}> Connect Wallet </button>
         </div> 
         <div className="res">
           <Features  />

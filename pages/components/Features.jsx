@@ -5,7 +5,7 @@ const Features = () => {
   return (
     <>
       <SimpleGrid
-        spacing={40}  
+        spacing={'32'}  
         templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
       >
         <Card>

@@ -5,13 +5,25 @@ import "@/styles/Feed.css";
 import "@/styles/Sem.css";
 import "@/styles/Login.css";
 import type { AppProps } from "next/app";
-import * as React from 'react'
-import { ChakraProvider } from "@chakra-ui/react"; 
+import * as React from "react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const supportedChainIds = [4];
+  const connectors = {
+    injected: {},
+  };
   return (
-    <ChakraProvider cssVarsRoot={undefined}>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <>
+      <ThirdwebWeb3Provider
+        supportedChainIds={supportedChainIds}
+        connectors={connectors}
+      >
+        <ChakraProvider cssVarsRoot={undefined}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </ThirdwebWeb3Provider>
+    </>
   );
 }
