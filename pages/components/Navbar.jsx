@@ -7,7 +7,6 @@ const Navbar = () => {
       <nav className="navbar">
         <ul>
           <li className="nav-links logo">
-            {/* <img src="assets/logo.svg" alt="Logo" />  */}
             <Link href={"/"}>
               <i class="fa-solid fa-wave-square"></i>
               <span className="home-txt">Home</span>
@@ -18,22 +17,16 @@ const Navbar = () => {
           <li className="nav-links">
             <Link href="/components/Feed"> Feed </Link>
           </li>
-          <li className="nav-links">
-            {/* <Select placeholder="Resources">
-              <option value="option1" href="/components/Sem">
-                3rd Sem
-              </option>
-              <option value="option2">
-              4th Sem
-              </option>
-              <option value="option3">
-              5th Sem
-              </option>
-              <option value="option4" >
-              6th Sem
-              </option>
-            </Select> */}
-            <Link href={"/components/Sem"}>Resources</Link>
+          <li className="nav-links dropdown">
+            <a href="javascript:void(0)" class="dropbtn">
+              Resources
+            </a>
+            <div class="dropdown-content">
+            <Link href="/components/Sem3"> Sem 3 </Link>
+            <Link href="/components/Sem4"> Sem 4 </Link>
+            <Link href="/components/Sem5"> Sem 5 </Link>
+            <Link href="/components/Sem6"> Sem 6 </Link>
+            </div>
           </li>
           <li className="nav-links">
             <Link href="/components/Chat"> Chat </Link>

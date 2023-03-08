@@ -22,12 +22,12 @@ const Sem = () => {
       {
         label: "DSA Notes",
         value: "dsanotes",
-        pdfFile: '.../public/assets/java.pdf',
+        pdfFile: ".../public/assets/java.pdf",
       },
       {
         label: "DSA UT1 Papers",
         value: "dsaut1",
-        pdfFile: './java.pdf',
+        pdfFile: "./java.pdf",
       },
       {
         label: "DSA UT2 Papers",
@@ -84,6 +84,50 @@ const Sem = () => {
         pdfFile: null,
       },
     ],
+    dropdown4: [
+      {
+        label: "DCD Notes",
+        value: "dcdnotes",
+        pdfFile: null,
+      },
+      {
+        label: "DCD UT1 Papers",
+        value: "dcdut1",
+        pdfFile: null,
+      },
+      {
+        label: "EDC UT2 Papers",
+        value: "dcdut2",
+        pdfFile: null,
+      },
+      {
+        label: "EDC ESE Papers",
+        value: "dcdese",
+        pdfFile: null,
+      },
+    ],
+    dropdown5: [
+      {
+        label: "EDC Notes",
+        value: "edcnotes",
+        pdfFile: null,
+      },
+      {
+        label: "EDC UT1 Papers",
+        value: "edcsut1",
+        pdfFile: null,
+      },
+      {
+        label: "EDC UT2 Papers",
+        value: "edcut2",
+        pdfFile: null,
+      },
+      {
+        label: "EDC ESE Papers",
+        value: "edcese",
+        pdfFile: null,
+      },
+    ],
   });
 
   const handleSelect = (event, dropdownName) => {
@@ -109,16 +153,16 @@ const Sem = () => {
   const handleDownload = (pdfFile) => {
     // const url = URL.createObjectURL(pdfFile);
     // const link = document.createElement("a");
-    // link.href =  '.../public/assets/java.pdf'; 
-    // console.log(link.href); 
+    // link.href =  '.../public/assets/java.pdf';
+    // console.log(link.href);
     // link.download = pdfFile.name;
     // document.body.appendChild(link);
-    // link.click();  
+    // link.click();
 
-    var link = document.createElement('a');
+    var link = document.createElement("a");
     link.href = pdfFile;
-    link.download = 'file.pdf';
-    link.dispatchEvent(new MouseEvent('click'));
+    link.download = "file.pdf";
+    link.dispatchEvent(new MouseEvent("click"));
   };
 
   const handleCloseModal = () => {
@@ -139,21 +183,9 @@ const Sem = () => {
         <div className="container-main">
           <h1>Subject Wise Resources</h1>
           <hr />
-          <div className="item"> 
-
-            {/* <Select
-              value={selectedValues.dropdown2}
-              onChange={(e) => handleSelect(e, "dropdown2")}
-            >
-              {options.dropdown2.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </Select> */}
-
+          <div className="item">
             <h3>DSA</h3>
-            <Select 
+            <Select
               placeholder="Select option"
               value={selectedValues.dropdown1}
               onChange={(e) => handleSelect(e, "dropdown1")}
@@ -186,7 +218,35 @@ const Sem = () => {
               value={selectedValues.dropdown3}
               onChange={(e) => handleSelect(e, "dropdown3")}
             >
-          {options.dropdown3.map((option) => (
+              {options.dropdown3.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="item">
+            <h3>Digital Circuit Design</h3>
+            <Select
+              placeholder="Select option"
+              value={selectedValues.dropdown4}
+              onChange={(e) => handleSelect(e, "dropdown4")}
+            >
+              {options.dropdown4.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="item">
+            <h3>Electonic Devices and Circuits</h3>
+            <Select
+              placeholder="Select option"
+              value={selectedValues.dropdown5}
+              onChange={(e) => handleSelect(e, "dropdown5")}
+            >
+              {options.dropdown5.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
@@ -218,6 +278,7 @@ const Sem = () => {
                       <Button
                         onClick={() => handleDownload(option.pdfFile)}
                         mt={4}
+                        bg="tomato"
                       >
                         Download PDF
                       </Button>

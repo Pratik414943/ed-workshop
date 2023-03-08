@@ -32,5 +32,35 @@
     padding-left: 16px;
 }
 .navbar i,.navbar span{
-    color: orange;
+    color: orange; 
 }
+ .dropbtn {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  li.dropdown {
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: black;
+    min-width: max-content;
+  }
+  
+  .dropdown-content a {
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .dropdown-content a:hover {background-color: orange;}
+  
+  .dropdown:hover .dropdown-content {
+    display: block; 
+  }

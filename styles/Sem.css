@@ -1,7 +1,7 @@
 .sem{
     display: flex;
     flex-direction: column;
-    margin-top: 5rem;
+    margin-top: 5rem; 
     align-items: center;
     justify-content: center;
 }
@@ -21,4 +21,7 @@
 }
 h3{
     color: orange;
+} 
+.css-7p9xsp >option{
+    background: black;
 }
