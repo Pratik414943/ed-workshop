@@ -11,12 +11,20 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
+import axios from 'axios';
+import { useState, useEffect } from "react"; 
 import Navbar from "./Navbar";
 
 const Sem = () => {
   const [selectedValues, setSelectedValues] = useState({});
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); 
+  // const [options, setOptions] = useState([]);
+  // useEffect(() => {
+  //   axios.get('/options')
+  //     .then(response => setOptions(response.data))
+  //     .catch(error => console.log(error));
+  // }, []);
+
   const [options, setOptions] = useState({
     dropdown1: [
       {
@@ -150,19 +158,36 @@ const Sem = () => {
     setOptions(updatedOptions);
   };
 
-  const handleDownload = (pdfFile) => {
-    // const url = URL.createObjectURL(pdfFile);
-    // const link = document.createElement("a");
-    // link.href =  '.../public/assets/java.pdf';
-    // console.log(link.href);
-    // link.download = pdfFile.name;
-    // document.body.appendChild(link);
-    // link.click();
+  const handleFileUpload = (optionValue, file) => {
+    const formData = new FormData();
+    formData.append('pdf', file);
+    formData.append('optionValue', optionValue);
+    axios.post('localhost:5000/upload', formData)
+      .then(response => {
+        // update state with new option object that includes PDF file
+        const updatedOptions = options.map(option => {
+          if (option._id === response.data._id) {
+            return response.data;
+          } else {
+            return option;
+          }
+        });
+        setOptions(updatedOptions);
+      })
+      .catch(error => console.log(error));
+  };
 
-    var link = document.createElement("a");
-    link.href = pdfFile;
-    link.download = "file.pdf";
-    link.dispatchEvent(new MouseEvent("click"));
+  const handleDownload = (filename) => {
+    axios.get(`localhost:5000/pdf/${filename}`, { responseType: 'blob' })
+      .then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(error => console.log(error));
   };
 
   const handleCloseModal = () => {
@@ -289,8 +314,11 @@ const Sem = () => {
             )}
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" onClick={handleCloseModal}>
+            <Button colorScheme="blue" onClick={handleCloseModal} mx={4}>
               Close
+            </Button> 
+            <Button colorScheme="blue" onClick={handleFileUpload}>
+              Upload
             </Button>
           </ModalFooter>
         </ModalContent>
