@@ -9,10 +9,10 @@ const Post = () => {
         </div>
         <div className="bottom">
             <ul className="icons">
-                <li><i class="fa-regular fa-comment"></i></li>
-                <li><i class="fa-solid fa-arrow-down"></i></li>
-                <li><i class="fa-solid fa-arrow-up"></i></li>
-                <li><i class="fa-solid fa-share"></i></li>
+                <li><i className="fa-regular fa-comment"></i></li>
+                <li><i className="fa-solid fa-arrow-down"></i></li>
+                <li><i className="fa-solid fa-arrow-up"></i></li>
+                <li><i className="fa-solid fa-share"></i></li>
             </ul>
         </div>
       </div>

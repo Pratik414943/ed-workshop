@@ -8,7 +8,7 @@ const Navbar = () => {
         <ul>
           <li className="nav-links logo">
             <Link href={"/"}>
-              <i class="fa-solid fa-wave-square"></i>
+              <i className="fa-solid fa-wave-square"></i>
               <span className="home-txt">Home</span>
             </Link>
           </li>
@@ -18,10 +18,10 @@ const Navbar = () => {
             <Link href="/components/Feed"> Feed </Link>
           </li>
           <li className="nav-links dropdown">
-            <a href="javascript:void(0)" class="dropbtn">
+            <a href="javascript:void(0)" className="dropbtn">
               Resources
             </a>
-            <div class="dropdown-content">
+            <div className="dropdown-content">
             <Link href="/components/Sem3"> Sem 3 </Link>
             <Link href="/components/Sem4"> Sem 4 </Link>
             <Link href="/components/Sem5"> Sem 5 </Link>

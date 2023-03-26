@@ -199,12 +199,6 @@ const Sem = () => {
     <>
       <Navbar />
       <div className="sem">
-        {/* <div className="container">
-          <img
-            src="https://img.freepik.com/premium-vector/liquid-shape-background-abstract-dynamic-wallpaper-poster-banner-presentation_752732-424.jpg?w=1380"
-            alt=""
-          />
-        </div> */}
         <div className="container-main">
           <h1>Subject Wise Resources</h1>
           <hr />
