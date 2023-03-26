@@ -27,10 +27,6 @@ const Feed = () => {
       <div className="main-feed">
         <TweetBox /> 
         {posts.map((post) => (
-        // <div key={post.id}>
-        //   <h2>{post.author}</h2>
-        //   <p>{post.content}</p>
-        // </div> 
         <Post author={post.author} content={post.content} /> 
       ))}
       </div>
