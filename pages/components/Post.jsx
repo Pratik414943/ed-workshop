@@ -1,12 +1,20 @@
-const Post = () => {
+import { color } from "framer-motion";
+import { createAvatar } from '@dicebear/core';
+import { lorelei } from '@dicebear/collection';
+
+const Post = (props) => {
+  const avatar = createAvatar(lorelei, {
+    seed: 'John Doe',
+  });
+  const svg = avatar.toString(); 
+  // console.log(svg);
   return (
     <>
       <div className="wrapper">
-        <div className="text">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
-          quaerat sint earum, distinctio, dolor eveniet atque eaque voluptatibus
-          vitae illo fugiat rerum unde quas explicabo.
+        <div className="author">
+          <span>{props.author}</span>
         </div>
+        <div className="text">{props.content}</div>
         <div className="bottom">
             <ul className="icons">
                 <li><i className="fa-regular fa-comment"></i></li>
