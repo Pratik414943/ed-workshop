@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const multer = require("multer");
-const resource=require('./Resource.Model');
+const Resource=require('./Resource.Model');
 const PORT = 5000;
 
 mongoose.connect("mongodb://localhost:27017/Resources", {

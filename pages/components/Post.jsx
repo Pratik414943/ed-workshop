@@ -1,13 +1,4 @@
-import { color } from "framer-motion";
-import { createAvatar } from '@dicebear/core';
-import { lorelei } from '@dicebear/collection';
-
 const Post = (props) => {
-  const avatar = createAvatar(lorelei, {
-    seed: 'John Doe',
-  });
-  const svg = avatar.toString(); 
-  // console.log(svg);
   return (
     <>
       <div className="wrapper">

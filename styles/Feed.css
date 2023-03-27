@@ -141,4 +141,7 @@
 }
 .bottom button:hover{
   background: orange;
+} 
+.author span{
+  color: orange; 
 }

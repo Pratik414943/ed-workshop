@@ -9,21 +9,55 @@ import {
   ModalCloseButton,
   Button,
   Input,
-} from "@chakra-ui/react";
-import { useDisclosure } from "@chakra-ui/react";
-import axios from 'axios';
-import { useState, useEffect } from "react"; 
+} from "@chakra-ui/react"; 
+import { useRouter } from 'next/router';
+import axios from "axios";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  listAll,
+  getDownloadURL,
+} from "firebase/storage";
+import { storage } from "./base";
+import { v4 } from "uuid";
 
 const Sem = () => {
+  const router = useRouter();
   const [selectedValues, setSelectedValues] = useState({});
-  const [isOpen, setIsOpen] = useState(false); 
-  // const [options, setOptions] = useState([]);
-  // useEffect(() => {
-  //   axios.get('/options')
-  //     .then(response => setOptions(response.data))
-  //     .catch(error => console.log(error));
-  // }, []);
+  const [isOpen, setIsOpen] = useState(false);
+  const [pdfUpload, setpdfUpload] = useState(null);
+  const [pdfList, setpdfList] = useState([]);
+  const [pdfName, setpdfName] = useState("");
+  const [pdfNameList, setpdfNameList] = useState([]);
+
+  const uploadToFirebase = () => {
+    if (pdfUpload == null) return;
+    const pdfRef = ref(storage, `Sem3/dsa/${pdfName}`);
+    uploadBytes(pdfRef, pdfUpload).then(() => {
+      alert("File Uploaded Successfully");
+    });
+  };
+
+  const pdfListRef = ref(storage, "Sem3/");
+  useEffect(() => {
+    listAll(pdfListRef).then((res) => {
+      res.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          setpdfList((prev) => [...prev, url]);
+          setpdfNameList((prev) => [...prev, item.name]);
+        });
+      });
+      res.items.forEach((item) => {});
+    });
+  }, []);
+  console.log(pdfNameList); 
+
+  const downloadPdf=()=>{
+    router.push(pdfList[0])
+  }
 
   const [options, setOptions] = useState({
     dropdown1: [
@@ -147,49 +181,6 @@ const Sem = () => {
     setIsOpen(true);
   };
 
-  const handleFileChange = (event, option, dropdownName) => {
-    const file = event.target.files[0];
-    const updatedOptions = {
-      ...options,
-      [dropdownName]: options[dropdownName].map((o) =>
-        o.value === option.value ? { ...o, pdfFile: file } : o
-      ),
-    };
-    setOptions(updatedOptions);
-  };
-
-  const handleFileUpload = (optionValue, file) => {
-    const formData = new FormData();
-    formData.append('pdf', file);
-    formData.append('optionValue', optionValue);
-    axios.post('localhost:5000/upload', formData)
-      .then(response => {
-        // update state with new option object that includes PDF file
-        const updatedOptions = options.map(option => {
-          if (option._id === response.data._id) {
-            return response.data;
-          } else {
-            return option;
-          }
-        });
-        setOptions(updatedOptions);
-      })
-      .catch(error => console.log(error));
-  };
-
-  const handleDownload = (filename) => {
-    axios.get(`localhost:5000/pdf/${filename}`, { responseType: 'blob' })
-      .then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', filename);
-        document.body.appendChild(link);
-        link.click();
-      })
-      .catch(error => console.log(error));
-  };
-
   const handleCloseModal = () => {
     setSelectedValues({});
     setIsOpen(false);
@@ -290,18 +281,23 @@ const Sem = () => {
                     <Input
                       type="file"
                       onChange={(event) =>
-                        handleFileChange(event, option, dropdownName)
+                        setpdfUpload(event.target.files[0])
                       }
                     />
-                    {option.pdfFile && (
-                      <Button
-                        onClick={() => handleDownload(option.pdfFile)}
-                        mt={4}
-                        bg="tomato"
-                      >
-                        Download PDF
-                      </Button>
-                    )}
+                    <Input
+                      placeholder="PDF Name"
+                      mt={2}
+                      onChange={(e) => setpdfName(e.target.value)}
+                    />
+                    {pdfNameList.map((item) => (
+                      <div className="pdfs">
+                        <button className="pdf_btn" 
+                        onClick={downloadPdf}>
+                          {item}
+                          <i className="fa fa-file-pdf-o"></i>
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 ) : null
               )
@@ -310,8 +306,8 @@ const Sem = () => {
           <ModalFooter>
             <Button colorScheme="blue" onClick={handleCloseModal} mx={4}>
               Close
-            </Button> 
-            <Button colorScheme="blue" onClick={handleFileUpload}>
+            </Button>
+            <Button colorScheme="blue" onClick={uploadToFirebase}>
               Upload
             </Button>
           </ModalFooter>
