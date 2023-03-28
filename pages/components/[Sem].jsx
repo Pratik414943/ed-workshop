@@ -9,11 +9,10 @@ import {
   ModalCloseButton,
   Button,
   Input,
-} from "@chakra-ui/react"; 
-import { useRouter } from 'next/router';
-import axios from "axios";
+} from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import Navbar from "./Navbar"; 
+import Navbar from "./Navbar";
 import {
   getStorage,
   ref,
@@ -22,42 +21,45 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { storage } from "./base";
-import { v4 } from "uuid";
 
 const Sem = () => {
   const router = useRouter();
+  const pid = router.query;
+  const Sem = pid.Sem;
   const [selectedValues, setSelectedValues] = useState({});
+  const [subjectName, setsubjectName] = useState("");
+  const [resType, setResType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [pdfUpload, setpdfUpload] = useState(null);
-  const [pdfList, setpdfList] = useState([]);
-  const [pdfName, setpdfName] = useState("");
-  const [pdfNameList, setpdfNameList] = useState([]);
+  const [pdfMap, setPdfMap] = useState(new Map());
 
   const uploadToFirebase = () => {
     if (pdfUpload == null) return;
-    const pdfRef = ref(storage, `Sem3/dsa/${pdfName}`);
+    // console.log(pdfUpload.name);
+    const pdfRef = ref(
+      storage,
+      `${Sem}/dsa/${resType}/${pdfUpload.name}`
+      // `${Sem}/${subjectName}/${resType}/${pdfUpload.name}`
+    );
     uploadBytes(pdfRef, pdfUpload).then(() => {
       alert("File Uploaded Successfully");
     });
   };
 
-  const pdfListRef = ref(storage, "Sem3/");
+  // const pdfListRef = ref(storage, `Sem3/dsa/dsaut1/`);
+  const pdfListRef = ref(storage, `Sem3/dsa/`);
+  // const pdfListRef = ref(storage, `Sem3/dsa/${resType}/`);
   useEffect(() => {
     listAll(pdfListRef).then((res) => {
+      const newPdfMap = new Map();
       res.items.forEach((item) => {
         getDownloadURL(item).then((url) => {
-          setpdfList((prev) => [...prev, url]);
-          setpdfNameList((prev) => [...prev, item.name]);
+          newPdfMap.set(item.name, url);
         });
+        setPdfMap(newPdfMap);
       });
-      res.items.forEach((item) => {});
     });
   }, []);
-  console.log(pdfNameList); 
-
-  const downloadPdf=()=>{
-    router.push(pdfList[0])
-  }
 
   const [options, setOptions] = useState({
     dropdown1: [
@@ -174,6 +176,7 @@ const Sem = () => {
 
   const handleSelect = (event, dropdownName) => {
     const newValue = event.target.value;
+    setResType(event.target.value);
     setSelectedValues((prevValues) => ({
       ...prevValues,
       [dropdownName]: newValue,
@@ -198,7 +201,10 @@ const Sem = () => {
             <Select
               placeholder="Select option"
               value={selectedValues.dropdown1}
-              onChange={(e) => handleSelect(e, "dropdown1")}
+              onChange={(e) => {
+                setsubjectName["dsa"];
+                handleSelect(e, "dropdown1");
+              }}
             >
               {options.dropdown1.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -212,7 +218,10 @@ const Sem = () => {
             <Select
               placeholder="Select option"
               value={selectedValues.dropdown2}
-              onChange={(e) => handleSelect(e, "dropdown2")}
+              onChange={(e) => {
+                setsubjectName["SNS"];
+                handleSelect(e, "dropdown2");
+              }}
             >
               {options.dropdown2.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -280,21 +289,20 @@ const Sem = () => {
                   <div key={option.value}>
                     <Input
                       type="file"
-                      onChange={(event) =>
-                        setpdfUpload(event.target.files[0])
-                      }
+                      onChange={(event) => setpdfUpload(event.target.files[0])}
                     />
-                    <Input
-                      placeholder="PDF Name"
-                      mt={2}
-                      onChange={(e) => setpdfName(e.target.value)}
-                    />
-                    {pdfNameList.map((item) => (
-                      <div className="pdfs">
-                        <button className="pdf_btn" 
-                        onClick={downloadPdf}>
-                          {item}
-                          <i className="fa fa-file-pdf-o"></i>
+                    <Input placeholder="Enter PDF Name" mt={2} disabled />
+                    {Array.from(pdfMap.keys()).map((name) => (
+                      <div className="item-div">
+                        <button className="pdf_btn">
+                          <i className="fa-regular fa-file-pdf"></i>
+                          <a
+                            href={pdfMap.get(name)}
+                            download={name}
+                            target="_blank"
+                          >
+                            {name}
+                          </a>
                         </button>
                       </div>
                     ))}

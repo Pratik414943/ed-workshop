@@ -24,4 +24,10 @@ h3{
 } 
 .css-7p9xsp >option{
     background: black;
+}  
+.item-div{
+    display: flex; 
+    flex-direction: column;
+    align-items: baseline;
+    margin: 0.5rem;
 }
