@@ -1,5 +1,6 @@
 import Head from "next/head";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar"; 
+import { useSession, signIn, signOut } from "next-auth/react"
 import Features from "./components/Features"; 
 import { Select } from '@chakra-ui/react'
 import Link from "next/link"; 
@@ -8,7 +9,9 @@ import { useWeb3 } from "@3rdweb/hooks"
 
 
 export default function Home() {  
-  const { address, connectWallet } = useWeb3();
+  // const { address, connectWallet } = useWeb3(); 
+  const { data: session } = useSession() 
+  console.log(session);
   return (
     <>
       <Head>
@@ -27,8 +30,8 @@ export default function Home() {
             EN
             </span>
           </h1>
-          {/* <button className="btn"> <Link href={'./components/Login'}> Login To Site </Link> </button> */}
-          <button className="btn" id='connect' onClick={() => connectWallet("injected")}> Connect Wallet </button>
+          <button className="btn" onClick={() => signIn()}>Login To Site</button>
+          {/* <button className="btn" id='connect' onClick={() => connectWallet("injected")}> Connect Wallet </button> */}
         </div> 
         <div className="res">
           <Features  />

@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { Select } from "@chakra-ui/react";
+import { Select } from "@chakra-ui/react"; 
+import { useSession, signIn, signOut } from "next-auth/react"
 
 const Navbar = () => {
+  const { data: session } = useSession()
   return (
     <>
       <nav className="navbar">
@@ -34,16 +36,16 @@ const Navbar = () => {
           <li className="nav-links">
             <Link href="/components/About"> About </Link>
           </li>
-          <li className="nav-links">
-            <Link href="/components/Login"> Login </Link>
-          </li>
+
+          {!session && <li className="nav-links" onClick={() => signIn('google')}> Login </li>} 
+          {session && <li className="nav-links" onClick={() => signOut()}> LogOut </li>} 
           <li>
             <i className="fa-solid fa-bars"></i>
           </li>
         </ul>
       </nav>
-      {/* <div className="hr-orange"></div>  */}
-      <hr />
+      <div className="hr-orange"></div> 
+      {/* <hr /> */}
     </>
   );
 };

@@ -16,6 +16,9 @@
     height: 28%;
     margin-right: 0.75rem;
 } 
+.nav-links{
+  cursor: pointer;
+}
 .hr-orange{
     border:  0.01rem solid orange;
 }
