@@ -18,7 +18,7 @@ const Features = () => {
             </Text>
           </CardBody>
           <CardFooter>
-            <Button>Explore</Button>
+            <Button bg={'black'}>Explore</Button>
           </CardFooter>
         </Card>
         <Card>
@@ -31,7 +31,7 @@ const Features = () => {
             </Text>
           </CardBody>
           <CardFooter>
-            <Button>Explore</Button>
+            <Button bg={'black'}>Explore</Button>
           </CardFooter>
         </Card>
         <Card>
@@ -44,7 +44,7 @@ const Features = () => {
             </Text>
           </CardBody>
           <CardFooter>
-            <Button>Explore</Button>
+            <Button bg={'black'}>Explore</Button>
           </CardFooter>
         </Card>
       </SimpleGrid>

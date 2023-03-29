@@ -20,7 +20,7 @@ import {
   listAll,
   getDownloadURL,
 } from "firebase/storage";
-import { storage } from "./base";
+import { storage } from "./base"; 
 
 const Sem = () => {
   const router = useRouter();
@@ -38,17 +38,18 @@ const Sem = () => {
     // console.log(pdfUpload.name);
     const pdfRef = ref(
       storage,
-      `${Sem}/dsa/${resType}/${pdfUpload.name}`
-      // `${Sem}/${subjectName}/${resType}/${pdfUpload.name}`
+      // `${Sem}/dsa//${pdfUpload.name}`
+      `${Sem}/${subjectName}/${resType}/${pdfUpload.name}`
     );
     uploadBytes(pdfRef, pdfUpload).then(() => {
       alert("File Uploaded Successfully");
     });
   };
 
-  // const pdfListRef = ref(storage, `Sem3/dsa/dsaut1/`);
-  const pdfListRef = ref(storage, `Sem3/dsa/`);
-  // const pdfListRef = ref(storage, `Sem3/dsa/${resType}/`);
+  // const pdfListRef = ref(storage, `Sem5/SNS/snsnotes/`);
+  // const pdfListRef = ref(storage, `Sem3/dsa/`);
+  const pdfListRef = ref(storage, `${Sem}/${subjectName}/${resType}`);
+  // console.log(pdfListRef);
   useEffect(() => {
     listAll(pdfListRef).then((res) => {
       const newPdfMap = new Map();
@@ -202,12 +203,16 @@ const Sem = () => {
               placeholder="Select option"
               value={selectedValues.dropdown1}
               onChange={(e) => {
-                setsubjectName["dsa"];
+                setsubjectName("dsa");
                 handleSelect(e, "dropdown1");
               }}
             >
               {options.dropdown1.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option
+                  key={option.value}
+                  value={option.value}
+                  style={{ background: "black" }}
+                >
                   {option.label}
                 </option>
               ))}
@@ -219,12 +224,16 @@ const Sem = () => {
               placeholder="Select option"
               value={selectedValues.dropdown2}
               onChange={(e) => {
-                setsubjectName["SNS"];
+                setsubjectName("SNS");
                 handleSelect(e, "dropdown2");
               }}
             >
               {options.dropdown2.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option
+                  key={option.value}
+                  value={option.value}
+                  style={{ background: "black" }}
+                >
                   {option.label}
                 </option>
               ))}
@@ -235,10 +244,17 @@ const Sem = () => {
             <Select
               placeholder="Select option"
               value={selectedValues.dropdown3}
-              onChange={(e) => handleSelect(e, "dropdown3")}
+              onChange={(e) => {
+                setsubjectName("Maths");
+                handleSelect(e, "dropdown3");
+              }}
             >
               {options.dropdown3.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option
+                  key={option.value}
+                  value={option.value}
+                  style={{ background: "black" }}
+                >
                   {option.label}
                 </option>
               ))}
@@ -249,10 +265,17 @@ const Sem = () => {
             <Select
               placeholder="Select option"
               value={selectedValues.dropdown4}
-              onChange={(e) => handleSelect(e, "dropdown4")}
+              onChange={(e) => {
+                setsubjectName("DCD");
+                handleSelect(e, "dropdown4");
+              }}
             >
               {options.dropdown4.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option
+                  key={option.value}
+                  value={option.value}
+                  style={{ background: "black" }}
+                >
                   {option.label}
                 </option>
               ))}
@@ -263,10 +286,17 @@ const Sem = () => {
             <Select
               placeholder="Select option"
               value={selectedValues.dropdown5}
-              onChange={(e) => handleSelect(e, "dropdown5")}
+              onChange={(e) => {
+                setsubjectName("EDC");
+                handleSelect(e, "dropdown5");
+              }}
             >
               {options.dropdown5.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option
+                  key={option.value}
+                  value={option.value}
+                  style={{ background: "black" }}
+                >
                   {option.label}
                 </option>
               ))}
@@ -289,7 +319,9 @@ const Sem = () => {
                   <div key={option.value}>
                     <Input
                       type="file"
-                      onChange={(event) => setpdfUpload(event.target.files[0])}
+                      onChange={(event) => {
+                        setpdfUpload(event.target.files[0]);
+                      }}
                     />
                     <Input placeholder="Enter PDF Name" mt={2} disabled />
                     {Array.from(pdfMap.keys()).map((name) => (

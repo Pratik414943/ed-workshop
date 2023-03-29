@@ -30,7 +30,7 @@ export default function Home() {
             EN
             </span>
           </h1>
-          <button className="btn" onClick={() => signIn()}>Login To Site</button>
+          {!session && <button className="btn" onClick={() => signIn()}>Login To Site</button>}
           {/* <button className="btn" id='connect' onClick={() => connectWallet("injected")}> Connect Wallet </button> */}
         </div> 
         <div className="res">
