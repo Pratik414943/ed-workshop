@@ -20,22 +20,21 @@ import {
   listAll,
   getDownloadURL,
 } from "firebase/storage";
-import { storage } from "./base"; 
+import { storage,databse } from "./base"; 
 
 const Sem = () => {
   const router = useRouter();
   const pid = router.query;
   const Sem = pid.Sem;
   const [selectedValues, setSelectedValues] = useState({});
-  const [subjectName, setsubjectName] = useState("");
-  const [resType, setResType] = useState("");
+  const [subjectName, setsubjectName] = useState();
+  const [resType, setResType] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [pdfUpload, setpdfUpload] = useState(null);
   const [pdfMap, setPdfMap] = useState(new Map());
 
   const uploadToFirebase = () => {
     if (pdfUpload == null) return;
-    // console.log(pdfUpload.name);
     const pdfRef = ref(
       storage,
       // `${Sem}/dsa//${pdfUpload.name}`
@@ -47,10 +46,25 @@ const Sem = () => {
   };
 
   // const pdfListRef = ref(storage, `Sem5/SNS/snsnotes/`);
-  // const pdfListRef = ref(storage, `Sem3/dsa/`);
-  const pdfListRef = ref(storage, `${Sem}/${subjectName}/${resType}`);
-  // console.log(pdfListRef);
+  // const pdfListRef = ref(storage, `Sem3/dsa/dsanotes`);
+  const pdfListRef = ref(storage, `${Sem}/${subjectName}/${resType}/`);
   useEffect(() => {
+    console.log(pdfListRef);
+    return () => {
+      listAll(pdfListRef).then((res) => {
+        const newPdfMap = new Map();
+        res.items.forEach((item) => {
+          getDownloadURL(item).then((url) => {
+            newPdfMap.set(item.name, url);
+          });
+          setPdfMap(newPdfMap);
+        });
+      });
+    };
+  }, [resType]);
+
+  const getPdfs = () => {
+    console.log("clicked");
     listAll(pdfListRef).then((res) => {
       const newPdfMap = new Map();
       res.items.forEach((item) => {
@@ -60,120 +74,102 @@ const Sem = () => {
         setPdfMap(newPdfMap);
       });
     });
-  }, []);
+  };
 
-  const [options, setOptions] = useState({
+  const Sem3={
     dropdown1: [
       {
         label: "DSA Notes",
         value: "dsanotes",
-        pdfFile: ".../public/assets/java.pdf",
       },
       {
         label: "DSA UT1 Papers",
         value: "dsaut1",
-        pdfFile: "./java.pdf",
       },
       {
         label: "DSA UT2 Papers",
         value: "dsaut2",
-        pdfFile: null,
       },
       {
         label: "DSA ESE Papers",
         value: "dsaese",
-        pdfFile: null,
       },
     ],
     dropdown2: [
       {
         label: "SNS Notes",
         value: "snsnotes",
-        pdfFile: null,
       },
       {
         label: "SNS UT1 Papers",
         value: "snsut1",
-        pdfFile: null,
       },
       {
         label: "SNS UT2 Papers",
         value: "snsut2",
-        pdfFile: null,
       },
       {
         label: "SNS ESE Papers",
         value: "snsese",
-        pdfFile: null,
       },
     ],
     dropdown3: [
       {
         label: "Maths Notes",
         value: "mathsnotes",
-        pdfFile: null,
       },
       {
         label: "Maths UT1 Papers",
         value: "mathsut1",
-        pdfFile: null,
       },
       {
         label: "Maths UT2 Papers",
         value: "mathsut2",
-        pdfFile: null,
       },
       {
         label: "Maths ESE Papers",
         value: "mathese",
-        pdfFile: null,
       },
     ],
     dropdown4: [
       {
         label: "DCD Notes",
         value: "dcdnotes",
-        pdfFile: null,
       },
       {
         label: "DCD UT1 Papers",
         value: "dcdut1",
-        pdfFile: null,
       },
       {
         label: "EDC UT2 Papers",
         value: "dcdut2",
-        pdfFile: null,
       },
       {
         label: "EDC ESE Papers",
         value: "dcdese",
-        pdfFile: null,
       },
     ],
     dropdown5: [
       {
         label: "EDC Notes",
         value: "edcnotes",
-        pdfFile: null,
       },
       {
         label: "EDC UT1 Papers",
         value: "edcsut1",
-        pdfFile: null,
       },
       {
         label: "EDC UT2 Papers",
         value: "edcut2",
-        pdfFile: null,
       },
       {
         label: "EDC ESE Papers",
         value: "edcese",
-        pdfFile: null,
       },
     ],
-  });
+  }
+
+  const [options, setOptions] = useState(Sem3); 
 
   const handleSelect = (event, dropdownName) => {
     const newValue = event.target.value;
@@ -211,6 +207,11 @@ const Sem = () => {
                 <option
                   key={option.value}
                   value={option.value}
+                  onChange={(e) => {
+                    setsubjectName("DSA");
+                    setResType(option.value);
+                  }}
+                  onClick={getPdfs}
                   style={{ background: "black" }}
                 >
                   {option.label}
@@ -232,6 +233,11 @@ const Sem = () => {
                 <option
                   key={option.value}
                   value={option.value}
+                  onChange={(e) => {
+                    setsubjectName("SNS");
+                    setResType(option.value);
+                  }}
+                  onClick={getPdfs}
                   style={{ background: "black" }}
                 >
                   {option.label}
@@ -253,6 +259,11 @@ const Sem = () => {
                 <option
                   key={option.value}
                   value={option.value}
+                  onChange={(e) => {
+                    setsubjectName("Maths");
+                    setResType(option.value);
+                  }}
+                  onClick={getPdfs}
                   style={{ background: "black" }}
                 >
                   {option.label}
@@ -274,6 +285,11 @@ const Sem = () => {
                 <option
                   key={option.value}
                   value={option.value}
+                  onChange={(e) => {
+                    setsubjectName("DCD");
+                    setResType(option.value);
+                  }}
+                  onClick={getPdfs}
                   style={{ background: "black" }}
                 >
                   {option.label}
@@ -295,6 +311,11 @@ const Sem = () => {
                 <option
                   key={option.value}
                   value={option.value}
+                  onChange={(e) => {
+                    setsubjectName("EDC");
+                    setResType(option.value);
+                  }}
+                  onClick={getPdfs}
                   style={{ background: "black" }}
                 >
                   {option.label}

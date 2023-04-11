@@ -1,0 +1,150 @@
+{
+  "Sem3": {
+    "dropdown1": [
+      {"Subject" : "Data Sturctures And Algorithms"},
+      { "label": "DSA Notes", "value": "dsanotes" },
+      { "label": "DSA UT1 Papers", "value": "dsaut1" },
+      { "label": "DSA UT2 Papers", "value": "dsaut2" },
+      { "label": "DSA ESE Papers", "value": "dsaese" }
+    ],
+    "dropdown2": [
+      {"Subject" : "Signal and Systems"},
+      { "label": "SNS Notes", "value": "snsnotes" },
+      { "label": "SNS UT1 Papers", "value": "snsut1" },
+      { "label": "SNS UT2 Papers", "value": "snsut2" },
+      { "label": "SNS ESE Papers", "value": "snsese" }
+    ],
+    "dropdown3": [
+      {"Subject" : "Maths"},
+      { "label": "Maths Notes", "value": "mathsnotes" },
+      { "label": "Maths UT1 Papers", "value": "mathsut1" },
+      { "label": "Maths UT2 Papers", "value": "mathsut2" },
+      { "label": "Maths ESE Papers", "value": "mathese" }
+    ],
+    "dropdown4": [
+      {"Subject" : "Digital Circuit Devices"},
+      { "label": "DCD Notes", "value": "dcdnotes" },
+      { "label": "DCD UT1 Papers", "value": "dcdut1" },
+      { "label": "EDC UT2 Papers", "value": "dcdut2" },
+      { "label": "EDC ESE Papers", "value": "dcdese" }
+    ],
+    "dropdown5": [
+      {"Subject" : "Electonic Circuit Devices"},
+      { "label": "EDC Notes", "value": "edcnotes" },
+      { "label": "EDC UT1 Papers", "value": "edcsut1" },
+      { "label": "EDC UT2 Papers", "value": "edcut2" },
+      { "label": "EDC ESE Papers", "value": "edcese" }
+    ]
+  }, 
+  "Sem4": {
+    "dropdown1": [ 
+      {"Subject" : "DSP"},
+      { "label": "DSP Notes", "value": "dspnotes" },
+      { "label": "DSP  UT1 Papers", "value": "dsput1" },
+      { "label": "DSP  UT2 Papers", "value": "dsput2" },
+      { "label": "DSP  ESE Papers", "value": "dspese" }
+    ],
+    "dropdown2": [
+      {"Subject" : "Microproecessor & Microcontrollers"},
+      { "label": "Microproecessor Notes", "value": "mupnotes" },
+      { "label": "Microproecessor UT1 Papers", "value": "muput1" },
+      { "label": "Microproecessor UT2 Papers", "value": "muput2" },
+      { "label": "Microproecessor ESE Papers", "value": "mupese" }
+    ],
+    "dropdown3": [
+      {"Subject" : "Electro Magnetic Fields"},
+      { "label": "EMF Notes", "value": "emfnotes" },
+      { "label": "EMF UT1 Papers", "value": "emfut1" },
+      { "label": "EMF UT2 Papers", "value": "emfut2" },
+      { "label": "EMF ESE Papers", "value": "emfese" }
+    ],
+    "dropdown4": [
+      {"Subject" : "Biology"},
+      { "label": "Biology Notes", "value": "bionotes" },
+      { "label": "Biology UT1 Papers", "value": "biout1" },
+      { "label": "Biology UT2 Papers", "value": "biout2" },
+      { "label": "Biology ESE Papers", "value": "bioese" }
+    ],
+    "dropdown5": [
+      {"Subject" : "Analog Circuits"},
+      { "label": "Analog Circuits Notes", "value": "adcnotes" },
+      { "label": "Analog Circuits UT1 Papers", "value": "adcsut1" },
+      { "label": "Analog Circuits UT2 Papers", "value": "adcut2" },
+      { "label": "Analog Circuits ESE Papers", "value": "adcese" }
+    ]
+  }, 
+  "Sem5": {
+    "dropdown1": [
+      {"Subject": "EI"},
+      { "label": "EI Notes", "value": "einotes" },
+      { "label": "EI UT1 Papers", "value": "eiut1" },
+      { "label": "EI UT2 Papers", "value": "eiut2" },
+      { "label": "EI ESE Papers", "value": "eiaese" }
+    ],
+    "dropdown2": [
+      {"Subject": "CMOS"},
+      { "label": "CMOS Notes", "value": "einotes" },
+      { "label": "CMOS UT1 Papers", "value": "eiut1" },
+      { "label": "CMOS UT2 Papers", "value": "eiut2" },
+      { "label": "CMOS ESE Papers", "value": "eiese" }
+    ],
+    "dropdown3": [
+      {"Subject": "Control System"},
+      { "label": "Control System Notes", "value": "csnotes" },
+      { "label": "Control System UT1 Papers", "value": "csut1" },
+      { "label": "Control System UT2 Papers", "value": "csut2" },
+      { "label": "Control System ESE Papers", "value": "csese" }
+    ],
+    "dropdown4": [
+      {"Subject": "Electro Magnetic Waves"},
+      { "label": "EMWaves Notes", "value": "emwnotes" },
+      { "label": "EMWaves UT1 Papers", "value": "emwut1" },
+      { "label": "EMWaves UT2 Papers", "value": "emwut2" },
+      { "label": "EMWaves ESE Papers", "value": "emwese" }
+    ],
+    "dropdown5": [
+      {"Subject": "Digital Image Processing"},
+      { "label": "DIP Notes", "value": "dipnotes" },
+      { "label": "DIP UT1 Papers", "value": "dipsut1" },
+      { "label": "DIP UT2 Papers", "value": "dipcut2" },
+      { "label": "DIP ESE Papers", "value": "dipcese" }
+    ]
+  }, 
+  "Sem6": {
+    "dropdown1": [
+      {"Subject" : "ADC"},
+      { "label": "ADC Notes", "value": "adcnotes" },
+      { "label": "ADC UT1 Papers", "value": "adcut1" },
+      { "label": "ADC UT2 Papers", "value": "adcut2" },
+      { "label": "ADC ESE Papers", "value": "adcese" }
+    ],
+    "dropdown2": [
+      {"Subject" : "CAO"},
+      { "label": "CAO Notes", "value": "caonotes" },
+      { "label": "CAO UT1 Papers", "value": "caout1" },
+      { "label": "CAO UT2 Papers", "value": "caout2" },
+      { "label": "CAO ESE Papers", "value": "caoese" }
+    ],
+    "dropdown3": [
+      {"Subject" : "PTSP"},
+      { "label": "Probability Notes", "value": "ptspnotes" },
+      { "label": "Probability UT1 Papers", "value": "ptsput1" },
+      { "label": "Probability UT2 Papers", "value": "ptsput2" },
+      { "label": "Probability ESE Papers", "value": "ptspese" }
+    ],
+    "dropdown4": [
+      {"Subject" : "DBMS"},
+      { "label": "DBMS Notes", "value": "emwnotes" },
+      { "label": "DBMS UT1 Papers", "value": "emwut1" },
+      { "label": "DBMS UT2 Papers", "value": "emwut2" },
+      { "label": "DBMS ESE Papers", "value": "emwese" }
+    ],
+    "dropdown5": [
+      {"Subject" : "MBT"},
+      { "label": "MBT Notes", "value": "mbtnotes" },
+      { "label": "MBT UT1 Papers", "value": "mbtsut1" },
+      { "label": "MBT UT2 Papers", "value": "mbtut2" },
+      { "label": "MBT ESE Papers", "value": "mbtese" }
+    ]
+  }
+}
