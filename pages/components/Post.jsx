@@ -3,9 +3,9 @@ const Post = (props) => {
     <>
       <div className="wrapper">
         <div className="author">
-          <span>{props.author}</span>
+          <span>Yashwant</span>
         </div>
-        <div className="text">{props.content}</div>
+        <div className="text">{props.text}</div>
         <div className="bottom">
             <ul className="icons">
                 <li><i className="fa-regular fa-comment"></i></li>

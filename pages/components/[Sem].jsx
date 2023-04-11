@@ -19,8 +19,10 @@ import {
   uploadBytes,
   listAll,
   getDownloadURL,
-} from "firebase/storage";
-import { storage,databse } from "./base"; 
+} from "firebase/storage"; 
+import { onValue, on, set, push } from 'firebase/database'; 
+import { ref as ref1 } from "firebase/database";
+import { storage, database, dbref } from "./base";
 
 const Sem = () => {
   const router = useRouter();
@@ -32,6 +34,7 @@ const Sem = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [pdfUpload, setpdfUpload] = useState(null);
   const [pdfMap, setPdfMap] = useState(new Map());
+  // const [options, setOptions] = useState(null);
 
   const uploadToFirebase = () => {
     if (pdfUpload == null) return;
@@ -44,6 +47,20 @@ const Sem = () => {
       alert("File Uploaded Successfully");
     });
   };
+
+  // Next, retrieve data from a specific node
+  useEffect(() => {
+    const dbRef = ref1(database, "Sem3");
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        // setOptions(data); 
+        console.log(data);
+      } else {
+        console.log("Error Getting Data");
+      }
+    });
+  }, []);
 
   // const pdfListRef = ref(storage, `Sem5/SNS/snsnotes/`);
   // const pdfListRef = ref(storage, `Sem3/dsa/dsanotes`);
@@ -64,7 +81,6 @@ const Sem = () => {
   }, [resType]);
 
   const getPdfs = () => {
-    console.log("clicked");
     listAll(pdfListRef).then((res) => {
       const newPdfMap = new Map();
       res.items.forEach((item) => {
@@ -76,7 +92,7 @@ const Sem = () => {
     });
   };
 
-  const Sem3={
+  const Sem3 = {
     dropdown1: [
       {
         label: "DSA Notes",
@@ -167,9 +183,8 @@ const Sem = () => {
         value: "edcese",
       },
     ],
-  }
-
-  const [options, setOptions] = useState(Sem3); 
+  };
+  const [options, setOptions] = useState(Sem3);
 
   const handleSelect = (event, dropdownName) => {
     const newValue = event.target.value;

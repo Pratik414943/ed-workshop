@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { db, database } from "./base"; 
-import { collection, getDocs } from 'firebase/firestore';
-import { onValue, ref } from 'firebase/database';
+import { database } from "./base";
+import { onValue, ref, on, set, push, remove } from "firebase/database";
 
 export default function Feed() {
   const [tweets, setTweets] = useState([]);
@@ -9,8 +8,8 @@ export default function Feed() {
 
   // Fetch initial data from Firebase
   useEffect(() => {
-    const dbRef = firebase.database().ref("tweets");
-    dbRef.on("value", (snapshot) => {
+    const dbRef = ref(database, "tweets");
+    onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         const tweetList = Object.entries(data).map(([key, value]) => ({
@@ -25,9 +24,18 @@ export default function Feed() {
   // Post a new tweet to Firebase
   const handleSubmit = (event) => {
     event.preventDefault();
-    const dbRef = firebase.database().ref("tweets");
-    dbRef.push({ text: newTweet });
+    const dbRef = ref(database, "/tweets");
+    const newTweetRef = push(dbRef);
+    set(newTweetRef, {
+      id: newTweetRef.key,
+      text: newTweet,
+    });
     setNewTweet("");
+  };
+  const handleDelete = (id) => {
+    const tweetRef = ref(database, `/tweets/${id}`);
+    console.log(tweetRef);
+    remove(tweetRef);
   };
 
   // Render the feed
@@ -43,7 +51,10 @@ export default function Feed() {
       </form>
       <ul>
         {tweets.map((tweet) => (
-          <li key={tweet.id}>{tweet.text}</li>
+          <li key={tweet.id}>
+            {tweet.text}
+            <button onClick={() => handleDelete(tweet.id)}> Del</button>
+          </li>
         ))}
       </ul>
     </div>
