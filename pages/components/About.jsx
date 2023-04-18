@@ -1,16 +1,15 @@
 import {
   Select,
-  // Modal,
-  // ModalOverlay,
-  // ModalContent,
-  // ModalHeader,
-  // ModalFooter,
-  // ModalBody,
-  // ModalCloseButton,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
   Button,
   Input,
 } from "@chakra-ui/react"; 
-import Modal from "react-modal"; 
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
@@ -136,8 +135,8 @@ const Sem = () => {
     if (pdfUpload == null) return;
     const pdfRef = await ref(
       storage,
-      // `${Sem}/dsa//${pdfUpload.name}`
-      `${Sem}/${subjectName}/${resType}/${pdfUpload.name}`
+      `5/${subjectName}/${resType}/${pdfUpload.name}`
+      // `${Sem}/${subjectName}/${resType}/${pdfUpload.name}`
     );
     uploadBytes(pdfRef, pdfUpload).then(() => {
       alert("File Uploaded Successfully");
@@ -186,18 +185,15 @@ const Sem = () => {
     });
   };
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
 
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
-  const handleSelect = (e, dropdown) => {
-    setsubjectName(dropdown.Subject);
-    setResType(e.target.value);
-    openModal();
+  const handleSelect = (event, dropdownName) => {
+    const newValue = event.target.value;
+    setResType(event.target.value);
+    setSelectedValues((prevValues) => ({
+      ...prevValues,
+      [dropdownName]: newValue,
+    }));
+    setIsOpen(true);
   };
 
   const handleCloseModal = () => {
@@ -224,7 +220,7 @@ const Sem = () => {
                     handleSelect(e, "dropdown2");
                   }}
                 >
-                  {options.dropdown2.map((option) => (
+                  {options.dropdown4.map((option) => (
                     <option
                       key={option.label}
                       value={option.value}
@@ -245,12 +241,8 @@ const Sem = () => {
         </div>
       </div>
 
-      <Modal isOpen={modalOpen} onRequestClose={closeModal}>
-        <h2>{subjectName}</h2>
-        <p>{resType}</p>
-        {/* Display the data for the selected option here */}
-      </Modal>
-{/* 
+
+ 
       <Modal isOpen={isOpen} onClose={handleCloseModal}>
         <ModalOverlay />
         <ModalContent>
@@ -298,7 +290,7 @@ const Sem = () => {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal> */}
+      </Modal>
     </>
   );
 };
