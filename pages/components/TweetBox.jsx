@@ -16,7 +16,7 @@ const TweetBox = () => {
               className="input readonly"
               contenteditable="true"
               spellcheck="false"
-            ></div>
+            ></div> 
           </div>
           <div className="hr-orange"></div>
         </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { database } from "./base";
 import { onValue, ref, on, set, push, remove } from "firebase/database";
+import Navbar from "./Navbar";
 
 export default function Feed() {
   const [tweets, setTweets] = useState([]);
@@ -41,6 +42,7 @@ export default function Feed() {
   // Render the feed
   return (
     <div>
+      <Navbar />
       <form onSubmit={handleSubmit}>
         <input
           type="text"
