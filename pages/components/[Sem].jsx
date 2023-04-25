@@ -13,19 +13,16 @@ import {
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  listAll,
-  getDownloadURL,
-} from "firebase/storage";
-import { onValue, on, set, push } from "firebase/database";
+import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+import { onValue } from "firebase/database";
 import { ref as ref1 } from "firebase/database";
-import { storage, database, dbref } from "./base";
+import { storage, database } from "./base";
 
 const Sem3 = {
   dropdown1: [
+    {
+      Subject: "Data Sturctures And Algorithms",
+    },
     {
       label: "DSA Notes",
       value: "dsanotes",
@@ -45,6 +42,9 @@ const Sem3 = {
   ],
   dropdown2: [
     {
+      Subject: "Signal and Systems",
+    },
+    {
       label: "SNS Notes",
       value: "snsnotes",
     },
@@ -62,6 +62,9 @@ const Sem3 = {
     },
   ],
   dropdown3: [
+    {
+      Subject: "Maths",
+    },
     {
       label: "Maths Notes",
       value: "mathsnotes",
@@ -81,6 +84,9 @@ const Sem3 = {
   ],
   dropdown4: [
     {
+      Subject: "Digital Circuit Devices",
+    },
+    {
       label: "DCD Notes",
       value: "dcdnotes",
     },
@@ -98,6 +104,9 @@ const Sem3 = {
     },
   ],
   dropdown5: [
+    {
+      Subject: "Electonic Circuit Devices",
+    },
     {
       label: "EDC Notes",
       value: "edcnotes",
@@ -121,20 +130,30 @@ const Sem = () => {
   const router = useRouter();
   const pid = router.query;
   const Sem = pid.Sem;
-  const [selectedValues, setSelectedValues] = useState({});
   const [subjectName, setsubjectName] = useState();
   const [resType, setResType] = useState();
-  const [isOpen, setIsOpen] = useState(false);
   const [pdfUpload, setpdfUpload] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const [pdfMap, setPdfMap] = useState(new Map());
   const [options, setOptions] = useState(Sem3);
-  const [ddData, setDdData] = useState();
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const uploadToFirebase = () => {
+  const onOptionSelect = (value) => {
+    setSelectedValue(value);
+    setResType(value);
+    setIsOpen(true);
+  };
+
+  const onClose = () => {
+    setSelectedValue(null);
+    setIsOpen(false);
+  };
+
+  const uploadToFirebase = async () => {
     if (pdfUpload == null) return;
-    const pdfRef = ref(
+    const pdfRef = await ref(
       storage,
-      // `${Sem}/dsa//${pdfUpload.name}`
       `${Sem}/${subjectName}/${resType}/${pdfUpload.name}`
     );
     uploadBytes(pdfRef, pdfUpload).then(() => {
@@ -144,23 +163,20 @@ const Sem = () => {
 
   // Next, retrieve data from a specific node
   useEffect(() => {
-    const dbRef = ref1(database, "Sem3");
+    const dbRef = ref1(database, `${Sem}`);
+    console.log(dbRef);
     onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        // setOptions(data);
-        console.log(options);
+        setOptions(data);
       } else {
         console.log("Error Getting Data");
       }
     });
-  }, []);
+  }, [Sem]);
 
-  // const pdfListRef = ref(storage, `Sem5/SNS/snsnotes/`);
-  // const pdfListRef = ref(storage, `Sem3/dsa/dsanotes`);
   const pdfListRef = ref(storage, `${Sem}/${subjectName}/${resType}/`);
   useEffect(() => {
-    console.log(pdfListRef);
     return () => {
       listAll(pdfListRef).then((res) => {
         const newPdfMap = new Map();
@@ -186,21 +202,6 @@ const Sem = () => {
     });
   };
 
-  const handleSelect = (event, dropdownName) => {
-    const newValue = event.target.value;
-    setResType(event.target.value);
-    setSelectedValues((prevValues) => ({
-      ...prevValues,
-      [dropdownName]: newValue,
-    }));
-    setIsOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedValues({});
-    setIsOpen(false);
-  };
-
   return (
     <>
       <Navbar />
@@ -208,187 +209,75 @@ const Sem = () => {
         <div className="container-main">
           <h1>Subject Wise Resources</h1>
           <hr />
-          <div className="item">
-            <h3>DSA</h3>
-            <Select
-              placeholder="Select option"
-              value={selectedValues.dropdown1}
-              onChange={(e) => {
-                setsubjectName("dsa");
-                handleSelect(e, "dropdown1");
-              }}
-            >
-              {options.dropdown1.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  onChange={(e) => {
-                    setsubjectName("DSA");
-                    setResType(option.value);
-                  }}
-                  onClick={getPdfs}
-                  style={{ background: "black" }}
-                >
-                  {option.label}
-                </option>
+          <div>
+            {options &&
+              Object.keys(options).map((dropdown) => (
+                <div key={dropdown}>
+                  <h2>{options[dropdown][0].Subject}</h2>
+                  <Select
+                    placeholder={`Select ${options[dropdown][0].Subject}`}
+                    value={selectedValue}
+                    onChange={(e) => {
+                      setsubjectName(options[dropdown][0].Subject);
+                      onOptionSelect(e.target.value);
+                    }}
+                  >
+                    {options[dropdown].map((option) => (
+                      <option
+                        key={option.label}
+                        value={option.value}
+                        onChange={(e) => {
+                          setResType(e.target.value);
+                        }}
+                        onClick={getPdfs}
+                        style={{ background: "black" }}
+                      >
+                        {option.label}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
               ))}
-            </Select>
-          </div>
-          <div className="item">
-            <h3>SNS</h3>
-            <Select
-              placeholder="Select option"
-              value={selectedValues.dropdown2}
-              onChange={(e) => {
-                setsubjectName("SNS");
-                handleSelect(e, "dropdown2");
-              }}
-            >
-              {options.dropdown2.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  onChange={(e) => {
-                    setsubjectName("SNS");
-                    setResType(option.value);
-                  }}
-                  onClick={getPdfs}
-                  style={{ background: "black" }}
-                >
-                  {option.label}
-                </option>
-              ))}
-            </Select>
-          </div>
-          <div className="item">
-            <h3>Maths</h3>
-            <Select
-              placeholder="Select option"
-              value={selectedValues.dropdown3}
-              onChange={(e) => {
-                setsubjectName("Maths");
-                handleSelect(e, "dropdown3");
-              }}
-            >
-              {options.dropdown3.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  onChange={(e) => {
-                    setsubjectName("Maths");
-                    setResType(option.value);
-                  }}
-                  onClick={getPdfs}
-                  style={{ background: "black" }}
-                >
-                  {option.label}
-                </option>
-              ))}
-            </Select>
-          </div>
-          <div className="item">
-            <h3>Digital Circuit Design</h3>
-            <Select
-              placeholder="Select option"
-              value={selectedValues.dropdown4}
-              onChange={(e) => {
-                setsubjectName("DCD");
-                handleSelect(e, "dropdown4");
-              }}
-            >
-              {options.dropdown4.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  onChange={(e) => {
-                    setsubjectName("DCD");
-                    setResType(option.value);
-                  }}
-                  onClick={getPdfs}
-                  style={{ background: "black" }}
-                >
-                  {option.label}
-                </option>
-              ))}
-            </Select>
-          </div>
-          <div className="item">
-            <h3>Electonic Devices and Circuits</h3>
-            <Select
-              placeholder="Select option"
-              value={selectedValues.dropdown5}
-              onChange={(e) => {
-                setsubjectName("EDC");
-                handleSelect(e, "dropdown5");
-              }}
-            >
-              {options.dropdown5.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  onChange={(e) => {
-                    setsubjectName("EDC");
-                    setResType(option.value);
-                  }}
-                  onClick={getPdfs}
-                  style={{ background: "black" }}
-                >
-                  {option.label}
-                </option>
-              ))}
-            </Select>
           </div>
         </div>
       </div>
 
-      <Modal isOpen={isOpen} onClose={handleCloseModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            Selected Values: {JSON.stringify(selectedValues)}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {Object.entries(options).map(([dropdownName, dropdownOptions]) =>
-              dropdownOptions.map((option) =>
-                option.value === selectedValues[dropdownName] ? (
-                  <div key={option.value}>
-                    <Input
-                      type="file"
-                      onChange={(event) => {
-                        setpdfUpload(event.target.files[0]);
-                      }}
-                    />
-                    <Input placeholder="Enter PDF Name" mt={2} disabled />
-                    {Array.from(pdfMap.keys()).map((name) => (
-                      <div className="item-div">
-                        <button className="pdf_btn">
-                          <i className="fa-regular fa-file-pdf"></i>
-                          <a
-                            href={pdfMap.get(name)}
-                            download={name}
-                            target="_blank"
-                          >
-                            {name}
-                          </a>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : null
-              )
-            )}
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" onClick={handleCloseModal} mx={4}>
-              Close
-            </Button>
-            <Button colorScheme="blue" onClick={uploadToFirebase}>
-              Upload
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {selectedValue && (
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>{selectedValue}</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Input
+                type="file"
+                onChange={(event) => {
+                  setpdfUpload(event.target.files[0]);
+                }}
+              />
+              <Input placeholder="Enter PDF Name" mt={2} disabled />
+              {Array.from(pdfMap.keys()).map((name) => (
+                <div className="item-div">
+                  <button className="pdf_btn">
+                    <i className="fa-regular fa-file-pdf"></i>
+                    <a href={pdfMap.get(name)} download={name} target="_blank">
+                      {name}
+                    </a>
+                  </button>
+                </div>
+              ))}
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" onClick={onClose} mx={4}>
+                Close
+              </Button>
+              <Button colorScheme="blue" onClick={uploadToFirebase}>
+                Upload
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
     </>
   );
 };
