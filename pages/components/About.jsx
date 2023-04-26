@@ -9,7 +9,7 @@ import {
   ModalCloseButton,
   Button,
   Input,
-} from "@chakra-ui/react"; 
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
@@ -126,17 +126,16 @@ const Sem = () => {
   const [resType, setResType] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [pdfUpload, setpdfUpload] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
   const [pdfMap, setPdfMap] = useState(new Map());
   const [options, setOptions] = useState(Sem3);
   const [ddData, setDdData] = useState();
 
-  const uploadToFirebase = async () => {
+  const uploadToFirebase = async (e) => {
+    e.preventDefault();
     if (pdfUpload == null) return;
     const pdfRef = await ref(
       storage,
-      `5/${subjectName}/${resType}/${pdfUpload.name}`
-      // `${Sem}/${subjectName}/${resType}/${pdfUpload.name}`
+      `${Sem}/${subjectName}/${resType}/${pdfUpload.name}`
     );
     uploadBytes(pdfRef, pdfUpload).then(() => {
       alert("File Uploaded Successfully");
@@ -145,11 +144,11 @@ const Sem = () => {
 
   // Next, retrieve data from a specific node
   useEffect(() => {
-    const dbRef = ref1(database, "Sem5");
+    const dbRef = ref1(database, "Sem3");
     onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        setOptions(data);
+        // setOptions(data);
         console.log(options);
       } else {
         console.log("Error Getting Data");
@@ -173,7 +172,8 @@ const Sem = () => {
     };
   }, [resType]);
 
-  const getPdfs = () => {
+  const getPdfs = (e) => {
+    e.preventDefault();
     listAll(pdfListRef).then((res) => {
       const newPdfMap = new Map();
       res.items.forEach((item) => {
@@ -184,7 +184,6 @@ const Sem = () => {
       });
     });
   };
-
 
   const handleSelect = (event, dropdownName) => {
     const newValue = event.target.value;
@@ -208,41 +207,139 @@ const Sem = () => {
         <div className="container-main">
           <h1>Subject Wise Resources</h1>
           <hr />
-          <div>
-            {Object.keys(options).map((dropdown) => (
-              <div key={dropdown}>
-                <h2>{options[dropdown][0].Subject}</h2>
-                <Select
-                  placeholder="Select option"
-                  value={dropdown.label}
+          <div className="item">
+            <h3>DSA</h3>
+            <Select
+              placeholder="Select option"
+              value={selectedValues.dropdown1}
+              onChange={(e) => {
+                setsubjectName("dsa");
+                handleSelect(e, "dropdown1");
+              }}
+            >
+              {options.dropdown1.map((option) => (
+                <option
+                  key={option.value}
+                  value={option.value}
                   onChange={(e) => {
-                    setsubjectName(dropdown.Subject);
-                    handleSelect(e, "dropdown2");
+                    setsubjectName("DSA");
+                    setResType(option.value);
                   }}
+                  onClick={getPdfs}
+                  style={{ background: "black" }}
                 >
-                  {options.dropdown4.map((option) => (
-                    <option
-                      key={option.label}
-                      value={option.value}
-                      onChange={(e) => {
-                        setsubjectName(option.Subject);
-                        setResType(option.value);
-                      }}
-                      onClick={getPdfs}
-                      style={{ background: "black" }}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </Select>
-              </div>
-            ))}
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="item">
+            <h3>SNS</h3>
+            <Select
+              placeholder="Select option"
+              value={selectedValues.dropdown2}
+              onChange={(e) => {
+                setsubjectName("SNS");
+                handleSelect(e, "dropdown2");
+              }}
+            >
+              {options.dropdown2.map((option) => (
+                <option
+                  key={option.value}
+                  value={option.value}
+                  onChange={(e) => {
+                    setsubjectName("SNS");
+                    setResType(option.value);
+                  }}
+                  onClick={getPdfs}
+                  style={{ background: "black" }}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="item">
+            <h3>Maths</h3>
+            <Select
+              placeholder="Select option"
+              value={selectedValues.dropdown3}
+              onChange={(e) => {
+                setsubjectName("Maths");
+                handleSelect(e, "dropdown3");
+              }}
+            >
+              {options.dropdown3.map((option) => (
+                <option
+                  key={option.value}
+                  value={option.value}
+                  onChange={(e) => {
+                    setsubjectName("Maths");
+                    setResType(option.value);
+                  }}
+                  onClick={getPdfs}
+                  style={{ background: "black" }}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="item">
+            <h3>Digital Circuit Design</h3>
+            <Select
+              placeholder="Select option"
+              value={selectedValues.dropdown4}
+              onChange={(e) => {
+                setsubjectName("DCD");
+                handleSelect(e, "dropdown4");
+              }}
+            >
+              {options.dropdown4.map((option) => (
+                <option
+                  key={option.value}
+                  value={option.value}
+                  onChange={(e) => {
+                    setsubjectName("DCD");
+                    setResType(option.value);
+                  }}
+                  onClick={getPdfs}
+                  style={{ background: "black" }}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="item">
+            <h3>Electonic Devices and Circuits</h3>
+            <Select
+              placeholder="Select option"
+              value={selectedValues.dropdown5}
+              onChange={(e) => {
+                setsubjectName("EDC");
+                handleSelect(e, "dropdown5");
+              }}
+            >
+              {options.dropdown5.map((option) => (
+                <option
+                  key={option.value}
+                  value={option.value}
+                  onChange={(e) => {
+                    setsubjectName("EDC");
+                    setResType(option.value);
+                  }}
+                  onClick={getPdfs}
+                  style={{ background: "black" }}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </Select>
           </div>
         </div>
       </div>
 
-
- 
       <Modal isOpen={isOpen} onClose={handleCloseModal}>
         <ModalOverlay />
         <ModalContent>
