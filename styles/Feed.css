@@ -19,9 +19,17 @@
   width: 100%;
   border-radius: 15px;
   padding: 25px 25px 15px 25px;
-}  
+}   
+.author{
+  color: orange;
+}
 .wrapper1{
   border: 1px solid orange;
+}
+.feedbox{
+  width: 34vw ;  
+  overflow: hidden;
+  word-wrap: break-word;
 }
 .textbox{
   width: 34vw ; 
@@ -112,7 +120,13 @@
 }  
 .upper{
   display: flex;
-}
+} 
+.upper1{
+  display: flex; 
+  overflow-wrap: break-word;
+  justify-content: space-between; 
+  align-items: flex-start;
+} 
 .btn2{
   background: orangered;
   padding: 6px; 

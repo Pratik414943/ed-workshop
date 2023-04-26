@@ -82,8 +82,8 @@ const Feed = () => {
         </div>
         <div className="">
           {tweets.map((tweet) => (
-            <div key={tweet.id} className="wrapper">
-              {/* <div className="author">Yashwant</div> */}
+            <div key={tweet.id} className="wrapper feedbox">
+              <div className="author">Yashwant</div>
               <div className="upper1">
                 {tweet.text}
                 <button onClick={() => handleDelete(tweet.id)} className="btn2">
