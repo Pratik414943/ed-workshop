@@ -1,16 +1,15 @@
 import Head from "next/head";
-import Navbar from "./components/Navbar"; 
-import { useSession, signIn, signOut } from "next-auth/react"
-import Features from "./components/Features"; 
-import { Select } from '@chakra-ui/react'
-import Link from "next/link"; 
-import { useEffect } from "react";  
-import { useWeb3 } from "@3rdweb/hooks"
+import Navbar from "./components/Navbar";
+import { useSession, signIn, signOut } from "next-auth/react";
+import Features from "./components/Features";
+import { Select } from "@chakra-ui/react";
+import Link from "next/link";
+import { useEffect } from "react";
+import { useWeb3 } from "@3rdweb/hooks";
 
-
-export default function Home() {  
-  // const { address, connectWallet } = useWeb3(); 
-  const { data: session } = useSession() 
+export default function Home() {
+  // const { address, connectWallet } = useWeb3();
+  const { data: session } = useSession();
   console.log(session);
   return (
     <>
@@ -20,21 +19,23 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main> 
-          <Navbar />
-        <div className="Hero"> 
+      <main>
+        <Navbar />
+        <div className="Hero">
           <h1 className="">
             Welcome to the{" "}
             <span className="text-orange">only Resource Website</span> for{" "}
-            <span className="underline"> 
-            EN
-            </span>
+            <span className="underline">EN</span>
           </h1>
-          {!session && <button className="btn" onClick={() => signIn()}>Login To Site</button>}
+          {!session && (
+            <button className="btn" onClick={() => signIn()}>
+              Login To Site
+            </button>
+          )}
           {/* <button className="btn" id='connect' onClick={() => connectWallet("injected")}> Connect Wallet </button> */}
-        </div> 
+        </div>
         <div className="res">
-          <Features  />
+          <Features />
         </div>
       </main>
     </>

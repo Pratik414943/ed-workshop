@@ -118,6 +118,12 @@
 .tweets{
   list-style: none;
 }  
+.content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
 .upper{
   display: flex;
 } 

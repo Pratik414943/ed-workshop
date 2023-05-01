@@ -5,7 +5,6 @@ import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
 
 const Navbar = () => {
   const { data: session } = useSession();
-  console.log(session);
   return (
     <>
       <nav className="navbar">
@@ -19,22 +18,22 @@ const Navbar = () => {
         </ul>
         <ul>
           <li className="nav-links">
-            <Link href="/components/Feed"> Feed </Link>
+            <Link href="/Feed"> Feed </Link>
           </li>
           <li className="nav-links dropdown">
             <a className="dropbtn">Resources</a>
             <div className="dropdown-content">
-              <Link href="/components/Sem3"> Sem 3 </Link>
-              <Link href="/components/Sem4"> Sem 4 </Link>
-              <Link href="/components/Sem5"> Sem 5 </Link>
-              <Link href="/components/Sem6"> Sem 6 </Link>
+              <Link href="/Sem3"> Sem 3 </Link>
+              <Link href="/Sem4"> Sem 4 </Link>
+              <Link href="/Sem5"> Sem 5 </Link>
+              <Link href="/Sem6"> Sem 6 </Link>
             </div>
           </li>
           <li className="nav-links">
-            <Link href="/components/Chat"> Chat </Link>
+            <Link href="/Chat"> Chat </Link>
           </li>
           <li className="nav-links">
-            <Link href="/components/About"> About </Link>
+            <Link href="/About"> About </Link>
           </li>
 
           {!session && (

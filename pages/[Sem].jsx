@@ -9,10 +9,12 @@ import {
   ModalCloseButton,
   Button,
   Input,
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import Navbar from "./Navbar";
+import Navbar from "./components/Navbar";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import { onValue } from "firebase/database";
 import { ref as ref1 } from "firebase/database";
@@ -134,6 +136,7 @@ const Sem = () => {
   const [resType, setResType] = useState();
   const [pdfUpload, setpdfUpload] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isloading, setIsloading] = useState(false);
   const [pdfMap, setPdfMap] = useState(new Map());
   const [options, setOptions] = useState(Sem3);
   const [selectedValue, setSelectedValue] = useState(null);
@@ -164,7 +167,6 @@ const Sem = () => {
   // Next, retrieve data from a specific node
   useEffect(() => {
     const dbRef = ref1(database, `${Sem}`);
-    console.log(dbRef);
     onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
@@ -177,20 +179,8 @@ const Sem = () => {
 
   const pdfListRef = ref(storage, `${Sem}/${subjectName}/${resType}/`);
   useEffect(() => {
-    return () => {
-      listAll(pdfListRef).then((res) => {
-        const newPdfMap = new Map();
-        res.items.forEach((item) => {
-          getDownloadURL(item).then((url) => {
-            newPdfMap.set(item.name, url);
-          });
-          setPdfMap(newPdfMap);
-        });
-      });
-    };
-  }, [resType]);
-
-  const getPdfs = () => {
+    setIsloading(true);
+    console.log(pdfListRef);
     listAll(pdfListRef).then((res) => {
       const newPdfMap = new Map();
       res.items.forEach((item) => {
@@ -199,8 +189,24 @@ const Sem = () => {
         });
         setPdfMap(newPdfMap);
       });
+      setIsloading(false);
     });
-  };
+  }, [resType]);
+
+  // const getPdfs = () => {
+  //   console.log('PDF List:'+ pdfListRef);
+  //   setIsloading(true);
+  //   listAll(pdfListRef).then((res) => {
+  //     const newPdfMap = new Map();
+  //     res.items.forEach((item) => {
+  //       getDownloadURL(item).then((url) => {
+  //         newPdfMap.set(item.name, url);
+  //       });
+  //       setPdfMap(newPdfMap);
+  //     });
+  //   });
+  //   setIsloading(false);
+  // };
 
   return (
     <>
@@ -209,11 +215,11 @@ const Sem = () => {
         <div className="container-main">
           <h1>Subject Wise Resources</h1>
           <hr />
-          <div>
+          <div className="item">
             {options &&
               Object.keys(options).map((dropdown) => (
-                <div key={dropdown}>
-                  <h2>{options[dropdown][0].Subject}</h2>
+                <div key={dropdown} className="item">
+                  <h3>{options[dropdown][0].Subject}</h3>
                   <Select
                     placeholder={`Select ${options[dropdown][0].Subject}`}
                     value={selectedValue}
@@ -229,7 +235,7 @@ const Sem = () => {
                         onChange={(e) => {
                           setResType(e.target.value);
                         }}
-                        onClick={getPdfs}
+                        // onClick={getPdfs}
                         style={{ background: "black" }}
                       >
                         {option.label}
@@ -248,25 +254,40 @@ const Sem = () => {
           <ModalContent>
             <ModalHeader>{selectedValue}</ModalHeader>
             <ModalCloseButton />
-            <ModalBody>
-              <Input
-                type="file"
-                onChange={(event) => {
-                  setpdfUpload(event.target.files[0]);
-                }}
-              />
-              <Input placeholder="Enter PDF Name" mt={2} disabled />
-              {Array.from(pdfMap.keys()).map((name) => (
-                <div className="item-div">
-                  <button className="pdf_btn">
-                    <i className="fa-regular fa-file-pdf"></i>
-                    <a href={pdfMap.get(name)} download={name} target="_blank">
-                      {name}
-                    </a>
-                  </button>
-                </div>
-              ))}
-            </ModalBody>
+            {isloading ? (
+              <div className="center">
+                <Spinner
+                  thickness="4px"
+                  emptyColor="gray.200"
+                  color="blue.500"
+                  size="xl"
+                />
+              </div>
+            ) : (
+              <ModalBody>
+                <Input
+                  type="file"
+                  onChange={(event) => {
+                    setpdfUpload(event.target.files[0]);
+                  }}
+                />
+                <Input placeholder="Enter PDF Name" mt={2} disabled />
+                {Array.from(pdfMap.keys()).map((name) => (
+                  <div className="item-div">
+                    <button className="pdf_btn">
+                      <i className="fa-regular fa-file-pdf"></i>
+                      <a
+                        href={pdfMap.get(name)}
+                        download={name}
+                        target="_blank"
+                      >
+                        {name}
+                      </a>
+                    </button>
+                  </div>
+                ))}
+              </ModalBody>
+            )}
             <ModalFooter>
               <Button colorScheme="blue" onClick={onClose} mx={4}>
                 Close

@@ -7,11 +7,13 @@ import "@/styles/Login.css";
 import type { AppProps } from "next/app";
 import * as React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { ThirdwebWeb3Provider } from "@3rdweb/hooks";  
-import { SessionProvider } from "next-auth/react"
+import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
+import { SessionProvider } from "next-auth/react";
 
-
-export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   const supportedChainIds = [4];
   const connectors = {
     injected: {},
@@ -19,14 +21,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <>
       <SessionProvider session={session}>
-      <ThirdwebWeb3Provider
-        supportedChainIds={supportedChainIds}
-        connectors={connectors}
-      >
         <ChakraProvider cssVarsRoot={undefined}>
           <Component {...pageProps} />
         </ChakraProvider>
-      </ThirdwebWeb3Provider> 
       </SessionProvider>
     </>
   );
