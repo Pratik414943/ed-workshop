@@ -7,10 +7,10 @@ import Navbar from "./components/Navbar";
 const Feed = () => {
   const { data: session } = useSession();
   const [tweets, setTweets] = useState([]);
+  // State for creating new tweets and replies
   const [newTweet, setNewTweet] = useState("");
   const [replyToTweetId, setReplyToTweetId] = useState(null);
   const [replyText, setReplyText] = useState("");
-  const [replies, setReplies] = useState({});
 
   // Fetch initial data from Firebase
   useEffect(() => {
@@ -18,41 +18,30 @@ const Feed = () => {
     onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const tweetList = Object.entries(data).map(([key, value]) => ({
-          id: key,
-          user: value.user,
-          text: value.text,
-        }));
+        const tweetList = Object.entries(data).map(([key, value]) => {
+          const repliesList = value.replies
+            ? Object.entries(value.replies).map(([replyKey, replyValue]) => ({
+                id: replyKey,
+                user: replyValue.user,
+                text: replyValue.text,
+              }))
+            : [];
+          return {
+            id: key,
+            user: value.user,
+            text: value.text,
+            replies: repliesList,
+          };
+        });
         setTweets(tweetList);
       }
     });
   }, []);
 
-  // Fetch replies for a tweet
-  const fetchReplies = (tweetId) => {
-    const dbRef = ref(database, "tweets");
-    onValue(dbRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const repliesList = Object.entries(data)
-          .filter(([key, value]) => value.replyTo === tweetId)
-          .map(([key, value]) => ({
-            id: key,
-            user: value.user,
-            text: value.text,
-          }));
-        setReplies((prevState) => ({
-          ...prevState,
-          [tweetId]: repliesList,
-        }));
-      }
-    });
-  };
-
   // Post a new tweet to Firebase
   const handleSubmit = (event) => {
     event.preventDefault();
-    const dbRef = ref(database, "/tweets");
+    const dbRef = ref(database, "tweets");
     const newTweetRef = push(dbRef);
     set(newTweetRef, {
       id: newTweetRef.key,
@@ -63,15 +52,15 @@ const Feed = () => {
   };
 
   // Post a reply to a tweet
-  const handleReplySubmit = (event) => {
+  const handleReplySubmit = (event, tweetId) => {
     event.preventDefault();
-    const dbRef = ref(database, "/tweets");
+    const dbRef = ref(database, `/tweets/${tweetId}/replies`);
     const newTweetRef = push(dbRef);
     set(newTweetRef, {
       id: newTweetRef.key,
       user: session.user.name,
       text: replyText,
-      replyTo: replyToTweetId,
+      replyTo: tweetId,
     });
     setReplyToTweetId(null);
     setReplyText("");
@@ -79,7 +68,6 @@ const Feed = () => {
 
   const handleDelete = (id) => {
     const tweetRef = ref(database, `/tweets/${id}`);
-    console.log(tweetRef);
     remove(tweetRef);
   };
 
@@ -106,53 +94,48 @@ const Feed = () => {
         <div className="">
           {tweets.map((tweet) => (
             <div key={tweet.id} className="wrapper feed">
-              <div className="tweet">
-                <div className="tweet-content">
-                  <div className="tweet-header">
-                    <h3>{tweet.user}</h3>
-                    <button onClick={() => handleDelete(tweet.id)}>
-                      Delete
-                    </button>
-                  </div>
-                  <p>{tweet.text}</p>
-                  <button onClick={() => fetchReplies(tweet.id)}>
-                    View replies
+              <div className="feed-header">
+                <div className="feed-header-details">
+                  <span className="feed-header-user">{tweet.user}:</span>
+                  <span className="feed-header-text">{tweet.text}</span>
+                </div>
+                <div className="feed-header-actions">
+                  <button onClick={() => handleDelete(tweet.id)}>Delete</button>
+                  <button onClick={() => setReplyToTweetId(tweet.id)}>
+                    Reply
                   </button>
                 </div>
               </div>
-              {replies[tweet.id] && (
-                <div className="replies">
-                  {replies[tweet.id].map((reply) => (
-                    <div key={reply.id} className="tweet">
-                      <div className="tweet-content">
-                        <div className="tweet-header">
-                          <h3>{reply.user}</h3>
-                          <button onClick={() => handleDelete(reply.id)}>
-                            Delete
-                          </button>
-                        </div>
-                        <p>{reply.text}</p>
+              <div className="replies">
+                {replyToTweetId === tweet.id && (
+                  <form
+                    onSubmit={(event) => handleReplySubmit(event, tweet.id)}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Reply to this tweet"
+                      value={replyText}
+                      onChange={(event) => setReplyText(event.target.value)}
+                    />
+                    <button type="submit" className="reply-btn">Reply</button>
+                  </form>
+                )}
+                {tweet.replies.map((reply) => (
+                  <div key={reply.id} className="reply">
+                    <div className="reply-header">
+                      <div className="reply-header-details">
+                        <span className="reply-header-user">{reply.user}: </span>
+                        <span className="reply-header-text">{reply.text}</span>
                       </div>
-                    </div>
-                  ))}
-                  <div className="textbox">
-                    <form onSubmit={handleReplySubmit}>
-                      <div className="upper flex">
-                        <input
-                          className="text-area"
-                          placeholder="Reply"
-                          type="text"
-                          value={replyText}
-                          onChange={(event) => setReplyText(event.target.value)}
-                        />
-                        <button type="submit" className="btn1">
-                          Reply
+                      <div className="reply-header-actions">
+                        <button onClick={() => handleDelete(reply.id)}>
+                          Delete
                         </button>
                       </div>
-                    </form>
+                    </div>
                   </div>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -160,5 +143,4 @@ const Feed = () => {
     </>
   );
 };
-
 export default Feed;

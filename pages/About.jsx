@@ -1,147 +1,113 @@
-import { useState, useEffect } from "react";
-import { database } from "./base";
-import { onValue, ref, set, push, remove } from "firebase/database";
-import { useSession } from "next-auth/react";
+import Head from "next/head";
 import Navbar from "./components/Navbar";
 
-const Feed = () => {
-  const { data: session } = useSession();
-  const [tweets, setTweets] = useState([]);
-  // State for creating new tweets and replies
-  const [newTweet, setNewTweet] = useState("");
-  const [replyToTweetId, setReplyToTweetId] = useState(null);
-  const [replyText, setReplyText] = useState("");
+const developers = [
+  {
+    name: "John Doe",
+    avatar: "https://via.placeholder.com/150",
+    profile: "https://github.com/johndoe",
+  },
+  {
+    name: "Jane Smith",
+    avatar: "https://via.placeholder.com/150",
+    profile: "https://github.com/janesmith",
+  },
+  {
+    name: "Bob Johnson",
+    avatar: "https://via.placeholder.com/150",
+    profile: "https://github.com/bobjohnson",
+  },
+];
 
-  // Fetch initial data from Firebase
-  useEffect(() => {
-    const dbRef = ref(database, "tweets");
-    onValue(dbRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const tweetList = Object.entries(data).map(([key, value]) => {
-          const repliesList = Object.entries(data)
-            .filter(([replyKey, replyValue]) => replyValue.replyTo === key)
-            .map(([replyKey, replyValue]) => ({
-              id: replyKey,
-              user: replyValue.user,
-              text: replyValue.text,
-            }));
-          return {
-            id: key,
-            user: value.user,
-            text: value.text,
-            replies: repliesList,
-          };
-        });
-        setTweets(tweetList);
-      }
-    });
-  }, []);
-
-  // Post a new tweet to Firebase
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const dbRef = ref(database, "tweets");
-    const newTweetRef = push(dbRef);
-    set(newTweetRef, {
-      id: newTweetRef.key,
-      user: session.user.name,
-      text: newTweet,
-    });
-    setNewTweet("");
-  };
-
-  // Post a reply to a tweet
-  const handleReplySubmit = (event, tweetId) => {
-    event.preventDefault();
-    const dbRef = ref(database, `/tweets/${tweetId}/replies`);
-    const newTweetRef = push(dbRef);
-    set(newTweetRef, {
-      id: newTweetRef.key,
-      user: session.user.name,
-      text: replyText,
-      replyTo: tweetId,
-    });
-    setReplyToTweetId(null);
-    setReplyText("");
-  };
-
-  const handleDelete = (id) => {
-    const tweetRef = ref(database, `/tweets/${id}`);
-    remove(tweetRef);
-  };
-
+const About = () => {
   return (
     <>
       <Navbar />
-      <div className="main-feed">
-        <div className="textbox">
-          <form onSubmit={handleSubmit}>
-            <div className="upper flex">
-              <input
-                className="text-area"
-                placeholder="What's Happening"
-                type="text"
-                value={newTweet}
-                onChange={(event) => setNewTweet(event.target.value)}
-              />
-              <button type="submit" className="btn1">
-                Tweet
-              </button>
-            </div>
-          </form>
+      <Head>
+        <title>About Us</title>
+      </Head>
+      <div className="container">
+        <h1>About Us</h1>
+        <div className="about-site">
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Perspiciatis numquam molestias tempora dolorum, esse quod eaque.
+            Quisquam quia, est fugit illum repellendus deserunt dolorum
+            perspiciatis eos ut et, suscipit voluptatum numquam, asperiores
+            earum. Sed dolore qui consequatur! Velit eius eaque ullam delectus
+            repellat dolorum quasi possimus minima magnam quaerat quidem amet
+            maxime odit recusandae dignissimos officiis, praesentium consequatur
+            excepturi distinctio molestiae! Dicta, harum ullam ab deleniti
+            quidem consequatur molestias voluptas obcaecati tempore pariatur
+            assumenda ex aspernatur nobis quas aperiam minima, iure atque
+            debitis laborum omnis, quia quibusdam. Nihil, voluptatem. Nam
+            officia ipsum assumenda nesciunt atque aliquam nobis ea suscipit
+            minima?
+          </p>
+          <br />
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ad
+            reprehenderit, culpa quaerat soluta sapiente doloremque corrupti
+            quos tenetur odio! Reprehenderit at veniam quas, eaque aspernatur
+            corrupti culpa esse unde labore quos velit similique, sint, mollitia
+            inventore cupiditate dolorem? Provident unde suscipit, beatae
+            voluptate voluptates voluptatum vero ex facere! In, odio? Excepturi
+            a inventore provident ex minus hic. Quibusdam aliquam quae
+            voluptatibus vero accusantium rerum iure consectetur ipsum.
+          </p> 
+          <br />
+          <span className="orange">About The Developers:</span>
         </div>
-        <div className="">
-          {tweets.map((tweet) => (
-            <div key={tweet.id} className="wrapper feed">
-              <div className="feed-header">
-                <div className="feed-header-details">
-                  <span className="feed-header-user">{tweet.user}</span>
-                  <hr />
-                  <span className="feed-header-text">{tweet.text}</span>
-                </div>
-                <div className="feed-header-actions">
-                  <button onClick={() => handleDelete(tweet.id)}>Delete</button>
-                  <button onClick={() => setReplyToTweetId(tweet.id)}>
-                    Reply
-                  </button>
-                </div>
-              </div>
-              <div className="replies">
-                  {replyToTweetId === tweet.id && (
-                    <form
-                      onSubmit={(event) => handleReplySubmit(event, tweet.id)}
-                    >
-                      <input
-                        type="text"
-                        placeholder="Reply to this tweet"
-                        value={replyText}
-                        onChange={(event) => setReplyText(event.target.value)}
-                      />
-                      <button type="submit">Reply</button>
-                    </form>
-                  )}
-                {tweet.replies.map((reply) => (
-                  <div key={reply.id} className="wrapper reply">
-                    <div className="reply-header">
-                      <div className="reply-header-details">
-                        <span className="reply-header-user">{reply.user}</span>
-                        <span className="reply-header-text">{reply.text}</span>
-                      </div>
-                      <div className="reply-header-actions">
-                        <button onClick={() => handleDelete(reply.id)}>
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+        <div className="devs">
+          {developers.map((developer) => (
+            <div key={developer.name} className="developer">
+              <img src={developer.avatar} alt={developer.name} />
+              <div className="details">
+                <h2>{developer.name}</h2>
+                <a
+                  href={developer.profile}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View profile
+                </a>
               </div>
             </div>
           ))}
         </div>
       </div>
+      <style jsx>{`
+        .container {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 2rem;
+        }
+        .devs {
+          margin: 2rem;
+          display: flex;
+          justify-content: space-between;
+        }
+        .developer {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 2rem;
+        }
+        .developer img {
+          width: 150px;
+          height: 150px;
+          border-radius: 50%;
+          margin-right: 2rem;
+        }
+        .developer h2 {
+          margin-bottom: 0.5rem;
+        }
+        .developer a {
+          color: #0070f3;
+        }
+      `}</style>
     </>
   );
 };
-export default Feed;
+
+export default About;
