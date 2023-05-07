@@ -3,19 +3,19 @@ import Navbar from "./components/Navbar";
 
 const developers = [
   {
-    name: "John Doe",
-    avatar: "https://via.placeholder.com/150",
-    profile: "https://github.com/johndoe",
+    name: "Yashwant Lalwani",
+    avatar: "./assets/yashwant1.png",
+    profile: "https://github.com/yxshwxnt",
   },
   {
-    name: "Jane Smith",
-    avatar: "https://via.placeholder.com/150",
-    profile: "https://github.com/janesmith",
+    name: "Uttam Patel",
+    avatar: "./assets/uttam.jpg",
+    profile: "https://github.com/Uttamdp10",
   },
   {
-    name: "Bob Johnson",
-    avatar: "https://via.placeholder.com/150",
-    profile: "https://github.com/bobjohnson",
+    name: "Pratik",
+    avatar: "./assets/pratik.jpg",
+    profile: "https://github.com/Pratik414943",
   },
 ];
 
@@ -27,34 +27,28 @@ const About = () => {
         <title>About Us</title>
       </Head>
       <div className="container">
-        <h1>About Us</h1>
+        <h1 className="orange">About Us</h1>
         <div className="about-site">
           <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Perspiciatis numquam molestias tempora dolorum, esse quod eaque.
-            Quisquam quia, est fugit illum repellendus deserunt dolorum
-            perspiciatis eos ut et, suscipit voluptatum numquam, asperiores
-            earum. Sed dolore qui consequatur! Velit eius eaque ullam delectus
-            repellat dolorum quasi possimus minima magnam quaerat quidem amet
-            maxime odit recusandae dignissimos officiis, praesentium consequatur
-            excepturi distinctio molestiae! Dicta, harum ullam ab deleniti
-            quidem consequatur molestias voluptas obcaecati tempore pariatur
-            assumenda ex aspernatur nobis quas aperiam minima, iure atque
-            debitis laborum omnis, quia quibusdam. Nihil, voluptatem. Nam
-            officia ipsum assumenda nesciunt atque aliquam nobis ea suscipit
-            minima?
+            YUUP is an educational website created by Yashwant, Uttam, and
+            Pratik, three college students who aimed to provide a platform where
+            students can access a variety of resources to enhance their
+            learning. The website offers notes, previous papers, and a chatbot
+            system that enables students to interact with senior or pass-out
+            college students. In this report, we will discuss the features,
+            benefits, and significance of the YUUP website.
           </p>
           <br />
           <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ad
-            reprehenderit, culpa quaerat soluta sapiente doloremque corrupti
-            quos tenetur odio! Reprehenderit at veniam quas, eaque aspernatur
-            corrupti culpa esse unde labore quos velit similique, sint, mollitia
-            inventore cupiditate dolorem? Provident unde suscipit, beatae
-            voluptate voluptates voluptatum vero ex facere! In, odio? Excepturi
-            a inventore provident ex minus hic. Quibusdam aliquam quae
-            voluptatibus vero accusantium rerum iure consectetur ipsum.
-          </p> 
+            The YUUP website is significant because it provides students with an
+            opportunity to enhance their learning experience. The website's
+            features, such as notes, previous papers, and chatbot system, are
+            designed to help students learn and understand the concepts better.
+            The website is also beneficial for students who are unable to attend
+            coaching classes due to financial constraints or other reasons. The
+            YUUP website provides them with access to study material and
+            guidance, allowing them to excel academically.
+          </p>
           <br />
           <span className="orange">About The Developers:</span>
         </div>
