@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { database } from "./base";
-import { onValue, ref, set, push, remove } from "firebase/database";
+import { onValue, ref, transaction, set, push, remove } from "firebase/database";
 import { useSession } from "next-auth/react";
 import Navbar from "./components/Navbar";
 
@@ -34,6 +34,7 @@ const Feed = () => {
           };
         });
         setTweets(tweetList);
+        console.log(tweets);
       }
     });
   }, []);
@@ -69,6 +70,17 @@ const Feed = () => {
   const handleDelete = (id) => {
     const tweetRef = ref(database, `/tweets/${id}`);
     remove(tweetRef);
+  };
+
+  const handleDeleteReply = (tweetId, replyId) => {
+    const tweetRef = ref(database, `/tweets/${tweetId}/replies`);
+    transaction(tweetRef, (replies) => {
+      const index = replies.findIndex((reply) => reply.id === replyId);
+      if (index !== -1) {
+        replies.splice(index, 1);
+      }
+      return replies;
+    });
   };
 
   return (
@@ -117,18 +129,24 @@ const Feed = () => {
                       value={replyText}
                       onChange={(event) => setReplyText(event.target.value)}
                     />
-                    <button type="submit" className="reply-btn">Reply</button>
+                    <button type="submit" className="reply-btn">
+                      Reply
+                    </button>
                   </form>
                 )}
                 {tweet.replies.map((reply) => (
                   <div key={reply.id} className="reply">
                     <div className="reply-header">
                       <div className="reply-header-details">
-                        <span className="reply-header-user">{reply.user}: </span>
+                        <span className="reply-header-user">
+                          {reply.user}:{" "}
+                        </span>
                         <span className="reply-header-text">{reply.text}</span>
                       </div>
                       <div className="reply-header-actions">
-                        <button onClick={() => handleDelete(reply.id)}>
+                        <button
+                          onClick={() => handleDeleteReply(tweet.id, reply.id)}
+                        >
                           Delete
                         </button>
                       </div>

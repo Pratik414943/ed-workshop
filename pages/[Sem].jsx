@@ -178,35 +178,28 @@ const Sem = () => {
   }, [Sem]);
 
   const pdfListRef = ref(storage, `${Sem}/${subjectName}/${resType}/`);
-  useEffect(() => {
-    setIsloading(true);
-    console.log(pdfListRef);
-    listAll(pdfListRef).then((res) => {
-      const newPdfMap = new Map();
-      res.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          newPdfMap.set(item.name, url);
-        });
-        setPdfMap(newPdfMap);
-      });
-      setIsloading(false);
-    });
-  }, [resType]);
 
-  // const getPdfs = () => {
-  //   console.log('PDF List:'+ pdfListRef);
-  //   setIsloading(true);
-  //   listAll(pdfListRef).then((res) => {
-  //     const newPdfMap = new Map();
-  //     res.items.forEach((item) => {
-  //       getDownloadURL(item).then((url) => {
-  //         newPdfMap.set(item.name, url);
-  //       });
-  //       setPdfMap(newPdfMap);
-  //     });
-  //   });
-  //   setIsloading(false);
-  // };
+  useEffect(() => {
+    const getPdfs = async () => {
+      setIsloading(true);
+      console.log(pdfListRef);
+      try {
+        const res = await listAll(pdfListRef);
+        const newPdfMap = new Map();
+        await Promise.all(res.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          newPdfMap.set(item.name, url);
+        }));
+        setPdfMap(newPdfMap);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsloading(false);
+    };
+    getPdfs();
+  }, [resType]);
+  
+
 
   return (
     <>

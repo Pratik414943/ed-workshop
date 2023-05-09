@@ -4,7 +4,14 @@
     margin-top: 5rem; 
     align-items: center;
     justify-content: center;
-}
+} 
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
 .container-main{
     width: max-content;
     align-items: center;
